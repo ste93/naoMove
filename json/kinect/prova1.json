@@ -1,0 +1,163 @@
+{    "coord1": [
+    {
+        "jointname": "HipCenter",
+        "coordinates": [
+            0.366937578,
+            -0.112546623,
+            1.59208834
+        ]
+    },
+    {
+        "jointname": "Spine",
+        "coordinates": [
+            0.3454255,
+            -0.05105488,
+            1.577948
+        ]
+    },
+    {
+        "jointname": "ShoulderCenter",
+        "coordinates": [
+            0.235574692,
+            0.262291878,
+            1.52341986
+        ]
+    },
+    {
+        "jointname": "Head",
+        "coordinates": [
+            0.156150758,
+            0.4088123,
+            1.48576832
+        ]
+    },
+    {
+        "jointname": "ShoulderLeft",
+        "coordinates": [
+            0.108882286,
+            0.1639055,
+            1.63630867
+        ]
+    },
+    {
+        "jointname": "ElbowLeft",
+        "coordinates": [
+            0.115941346,
+            -0.0482785553,
+            1.73677278
+        ]
+    },
+    {
+        "jointname": "WristLeft",
+        "coordinates": [
+            0.0573320948,
+            -0.187171072,
+            1.61367154
+        ]
+    },
+    {
+        "jointname": "HandLeft",
+        "coordinates": [
+            0.0377082825,
+            -0.216771573,
+            1.505202
+        ]
+    },
+    {
+        "jointname": "ShoulderRight",
+        "coordinates": [
+            0.4099529,
+            0.190647766,
+            1.492614
+        ]
+    },
+    {
+        "jointname": "ElbowRight",
+        "coordinates": [
+            0.61754024,
+            0.0607923977,
+            1.47808623
+        ]
+    },
+    {
+        "jointname": "WristRight",
+        "coordinates": [
+            0.609228253,
+            -0.0551208481,
+            1.31513619
+        ]
+    },
+    {
+        "jointname": "HandRight",
+        "coordinates": [
+            0.59377563,
+            -0.110289544,
+            1.25046253
+        ]
+    },
+    {
+        "jointname": "HipLeft",
+        "coordinates": [
+            0.327332258,
+            -0.2019742,
+            1.633355
+        ]
+    },
+    {
+        "jointname": "KneeLeft",
+        "coordinates": [
+            0.30720672,
+            -0.549435258,
+            1.61478794
+        ]
+    },
+    {
+        "jointname": "AnkleLeft",
+        "coordinates": [
+            0.284936249,
+            -0.9339287,
+            1.5842129
+        ]
+    },
+    {
+        "jointname": "FootLeft",
+        "coordinates": [
+            0.2544758,
+            -0.9955679,
+            1.51808727
+        ]
+    },
+    {
+        "jointname": "HipRight",
+        "coordinates": [
+            0.45417,
+            -0.160778359,
+            1.57287478
+        ]
+    },
+    {
+        "jointname": "KneeRight",
+        "coordinates": [
+            0.476166725,
+            -0.481778741,
+            1.42828751
+        ]
+    },
+    {
+        "jointname": "AnkleRight",
+        "coordinates": [
+            0.5005079,
+            -0.8369913,
+            1.2582612
+        ]
+    },
+    {
+        "jointname": "FootRight",
+        "coordinates": [
+            0.471401,
+            -0.8977802,
+            1.18808591
+        ]
+    }
+]
+}

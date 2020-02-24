@@ -1,0 +1,27 @@
+{
+    "LShoulderRoll": 11.2,
+    "LShoulderPitch": 48.8,
+    "LElbowRoll": -40.2,
+    "LElbowYaw": 9.5,
+    "LWristYaw": -25.9,
+
+    "RShoulderRoll": -11.2,
+    "RShoulderPitch": 48.8,
+    "RElbowRoll": 40.2,
+    "RElbowYaw": -9.5,
+    "RWristYaw": 25.9,
+
+
+    "RHipRoll": -0.6,
+    "RHipPitch": -33.2,
+    "RKneePitch": 21.5,
+    "RAnklePitch": 13.7,
+    "RAnkleRoll" : -0.1,
+
+    "LHipRoll": 0.2,
+    "LHipPitch": 26.6,
+    "LKneePitch": 5.2,
+    "LAnklePitch": -32.2,
+    "LAnkleRoll" : -0.1
+
+}
