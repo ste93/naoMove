@@ -3,7 +3,7 @@ import os
 from common import jsonEditor
 from common import sendToRobotMultipleMovements as sendToRobot
 
-filename = 'garage21022020'
+filename = 'provanoh1'
 dirName = "json/2/" + filename
 data = jsonEditor.readKinectDict(filename)
 t = 0

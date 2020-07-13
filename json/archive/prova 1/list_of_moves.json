@@ -1,0 +1,21 @@
+{
+    "a": "json/finiti/armsdown",
+    "b": "json/finiti/swordright",
+    "c": "json/finiti/swordrightleftrequest",
+    "d": "json/finiti/openarms",
+    "e": "json/finiti/rightopen",
+    "f": "json/finiti/rightup45",
+    "g": "json/finiti/extremelysadchest",
+    "h": "json/finiti/swordleft",
+    "i": "json/finiti/arms45",
+    "j": "json/finiti/rightsadchest",
+    "k": "json/finiti/requestright",
+    "l": "json/finiti/request",
+    "m": "json/finiti/offering",
+    "n": "json/finiti/armsforward",
+    "o": "json/finiti/sadleft",
+    "p": "json/finiti/extremelysad",
+    "q": "json/finiti/sadright",
+    "r": "json/finiti/openarmsextended",
+    "s": "json/finiti/armsinit"
+}

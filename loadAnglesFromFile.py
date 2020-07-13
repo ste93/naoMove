@@ -1,31 +1,46 @@
-import json
 import time
-from lib1 import angles
+
+import bcolors as bcolors
+
 # import angles
-from common import jsonEditor, sendToRobot
-def readAndMove(filename):
+from JsonEditor import jsonEditor
+from NaoLibs.Common import sendToRobot
+
+def readAndMove(filename, t):
     listAngles = jsonEditor.readDict(filename)
     print (listAngles)
-    sendToRobot.sendrobot(listAngles, 0)
+    # here can be added the balance
+    sendToRobot.sendrobot(listAngles, t)
 
 
-# filenames = ["json/1/garage4/3",
-#              "json/1/garage4/4",
-#              "json/1/garage4/5",
-#              "json/1/garage4/7",
-#              "json/1/garage4/10",
-#              "json/1/garage4/11",
-#              "json/1/garage4/13",
-#              "json/1/ppp/21"]
+filenames = [
+        "json/finiti/arms45",
+        "json/finiti/armsdown",
+        "json/finiti/armsforward",
+        "json/finiti/sadleft",
+        "json/finiti/armsinit",
+        "json/finiti/extremelysad",
+        "json/finiti/openarms",
+        "json/finiti/openarmsextended",
+        "json/finiti/request",
+        "json/finiti/swordleft",
+        "json/finiti/swordright",
+        "json/finiti/sadright",
+        "json/finiti/extremelysadchest",
+        "json/finiti/rightup45",
+        "json/finiti/rightopen",
+        "json/finiti/swordrightleftrequest",
+        "json/finiti/rightsadchest",
+        "json/finiti/requestright"
 
-filenames = ["json/finiti/sxAlzata",
-             "json/finiti/sxdietro",
-             "json/finiti/dxAlzata"
-             # "json/finiti/dxdietro"
              ]
 
+
+t = 0
 for file in filenames:
-    readAndMove(file)
+    print(bcolors.OKMSG + file + bcolors.ENDC)
+    readAndMove(file, t)
+    t = 1
 
 
 time.sleep(2)
