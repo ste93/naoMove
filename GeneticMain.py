@@ -1,6 +1,7 @@
 import time
+from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants
 
-from GeneticAlgorithm import DEAP_algorithm, Constants
+# from GeneticAlgorithm import DEAP_algorithm, Constants
 from GeneticAlgorithm.FileManagement import Archive
 from JsonEditor import jsonEditor
 import winsound
@@ -31,20 +32,25 @@ def init():
     print("  Max %s" % max(fits))
     print("  Avg %s" % mean)
     print("  Std %s" % std)
-    frequency = 2500  # Set Frequency To 2500 Hertz
-    duration = 3000  # Set Duration To 1000 ms == 1 second
-    winsound.Beep(frequency, duration)
+    # frequency = 2500  # Set Frequency To 2500 Hertz
+    # duration = 3000  # Set Duration To 1000 ms == 1 second
+    # winsound.Beep(frequency, duration)
 
-for i in range(1):
-    start_time = time.time()
-    init()
-    print("--- %s seconds ---" % (time.time() - start_time))
-frequency = 2500  # Set Frequency To 2500 Hertz
-duration = 1000  # Set Duration To 1000 ms == 1 second
-winsound.Beep(frequency, duration)
-time.sleep(1)
-winsound.Beep(frequency, duration)
-time.sleep(1)
-winsound.Beep(frequency, duration)
-time.sleep(1)
-winsound.Beep(frequency, duration)
+try:
+    for i in range(1):
+        start_time = time.time()
+        init()
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+except Exception as e:
+    print "exception", e
+
+# frequency = 2500  # Set Frequency To 2500 Hertz
+# duration = 1000  # Set Duration To 1000 ms == 1 second
+# winsound.Beep(frequency, duration)
+# time.sleep(1)
+# winsound.Beep(frequency, duration)
+# time.sleep(1)
+# winsound.Beep(frequency, duration)
+# time.sleep(1)
+# winsound.Beep(frequency, duration)

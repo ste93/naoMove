@@ -4,19 +4,6 @@ import Constants
 from distance import jaccard
 from strsimpy.jaro_winkler import JaroWinkler
 from GeneticAlgorithm.FileManagement import Archive
-import pandas as pd
-import numpy as np
-
-
-class fit(object):
-    def __init__(self, fitvalue):
-        self.values = fitvalue
-
-
-class choreo(object):
-    def __init__(self, choreo, fitvalue):
-        self.choreo = choreo
-        self.fitness = fit(fitvalue)
 
 
 def evaluate_duplicates(choreography):
@@ -97,7 +84,7 @@ def calculate_fitness(movesList):
 
 
 def calculate_fitness_and_novelty(choreography, population, tools, toolbox):
-    print "calculate_novelty"
+    # print "calculate_novelty"
     fitness_value = fitness(choreography)
     novelty_value = novelty(choreography, population, tools, toolbox)
     archive = Archive.getArchive()["archive"]
