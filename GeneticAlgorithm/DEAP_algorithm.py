@@ -28,10 +28,14 @@ def print_pop(pop):
         print x, x.fitness.values
 
 
-def create_choreography(number_of_generations):
+# evaluation_method: 0 fitness, 1 novelty, 2 both
+# def create_choreography(number_of_generations):
+def create_choreography(number_of_generations, evaluation_method, repertoire):
     Archive.clearArchive()
     # initialization
-    fitness_function = calculate_novelty
+    fitness_function = calculate_fitnesses
+    if evaluation_method == 1:
+        fitness_function = calculate_novelty
     creator.create("FitnessMax", base.Fitness, weights=(1.0, 1.0))
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
@@ -41,8 +45,8 @@ def create_choreography(number_of_generations):
     toolbox.register("evaluate_hybrid", Operations.calculate_fitness_and_novelty)
     toolbox.register("mutate", Operations.mutation)
     toolbox.register("mate", tools.cxTwoPoint)
-    toolbox.register("select", tools.selSPEA2, k=100)
-    toolbox.register("selectTournament", tools.selTournament, k=100, tournsize = 5)
+    toolbox.register("select", tools.selSPEA2, k=Constants.population_size)
+    toolbox.register("selectTournament", tools.selTournament, k=Constants.population_size, tournsize = 5)
     toolbox.register("select10", tools.selSPEA2, k=10)
     toolbox.register("selectTournament10", tools.selTournament, k=10, tournsize = 5)
 
@@ -61,10 +65,11 @@ def create_choreography(number_of_generations):
         print "generation", g
 
         # switch function for evaluation
-        if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
-            fitness_function = calculate_novelty
-        elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
-            fitness_function = calculate_fitnesses
+        if evaluation_method == 2:
+            if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
+                fitness_function = calculate_novelty
+            elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
+                fitness_function = calculate_fitnesses
 
         # Clone the selected individuals
         offspring = list(map(toolbox.clone, pop))
@@ -91,21 +96,30 @@ def create_choreography(number_of_generations):
         # create the new offspring with old population and new individuals
         offspring = pop + new
 
-        # evaluate the individuals
+        # evaluate the offspring
         count_individuals = 0
         for ind in offspring:
             ind.fitness.values = fitness_function(ind, pop, toolbox)
             if ind.fitness.values[0] > Constants.threshold_f_min:
                 count_individuals = count_individuals + 1
-        pop[:] = offspring
 
         # selection
-        if fitness_function == calculate_fitnesses:
-            pop = toolbox.selectTournament(pop)
+        if evaluation_method == 2:
+            if fitness_function == calculate_fitnesses:
+                pop = toolbox.selectTournament(offspring)
+            else:
+                pop = toolbox.select(offspring)
+        elif evaluation_method == 1:
+            pop = toolbox.select(offspring)
         else:
-            pop = toolbox.select(pop)
+            pop = toolbox.selectTournament(offspring)
 
-    if fitness_function == calculate_fitnesses:
-        return toolbox.selectTournament10(pop)
+    if evaluation_method == 2:
+        if fitness_function == calculate_fitnesses:
+            return toolbox.selectTournament10(pop)
+        else:
+            return toolbox.select10(pop)
+    elif evaluation_method == 1:
+        return toolbox.select10(offspring)
     else:
-        return toolbox.select10(pop)
+        return toolbox.selectTournament10(offspring)

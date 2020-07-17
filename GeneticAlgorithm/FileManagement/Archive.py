@@ -38,6 +38,13 @@ def getRepertoire():
         dict = jsonEditor.readDict(GeneticAlgorithm.Constants.repertoire_path)
         return dict
     except Exception, e:
+        print "error", e
+
+def getRepertoireWithPath(path):
+    try:
+        dict = jsonEditor.readDict(path)
+        return dict
+    except Exception, e:
         print "error", Exception, e
 
 
@@ -58,10 +65,13 @@ def getResults():
         print "error", Exception, e
 
 def saveResults(archive):
-    jsonEditor.dumpDict(GeneticAlgorithm.Constants.results_path, archive)
+    saveResultsToPath(GeneticAlgorithm.Constants.results_path, archive)
 
+def saveResultsToPath(archive, path):
+    jsonEditor.dumpDict(path, archive)
 
 def addToResults(choreography):
     archive = getResults()
     archive["results"].append(choreography)
     saveResults(archive)
+
