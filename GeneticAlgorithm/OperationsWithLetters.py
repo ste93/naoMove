@@ -47,7 +47,7 @@ def novelty(choreography, population, tools, toolbox):
     pop_resulting = pop_selected + arch
     # print pop_resulting
     r = min(len(archive), Constants.max_arch)
-    ind_to_compare = tools.selWorst(pop_resulting, k=r)
+    ind_to_compare = tools.selBest(pop_resulting, k=r)
     value = 0
     for x in ind_to_compare:
         value = value + string_distance(str(choreography), str(x))

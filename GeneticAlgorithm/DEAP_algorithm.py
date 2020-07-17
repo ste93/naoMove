@@ -46,28 +46,19 @@ def create_choreography(number_of_generations):
     toolbox.register("select10", tools.selSPEA2, k=10)
     toolbox.register("selectTournament10", tools.selTournament, k=10, tournsize = 5)
 
+    # begins the counter of individuals with fitness over threshold over to 0
+    count_individuals = 0
+
     # create the population
     pop = toolbox.population(n=Constants.population_size)
     print "population done"
 
-    # first evaluation of the entire population
-    count_individuals = 0
-    for ind in pop:
-        ind.fitness.values = fitness_function(ind, pop, toolbox)
-        if ind.fitness.values[0] > Constants.threshold_f_min:
-            count_individuals = count_individuals + 1
-
     # Begin the evolution
     print(bcolors.BLUE + "initialization" + bcolors.ENDC)
-    for g in range(number_of_generations): # max(fits) < 100  can set a max to the fitness, convergence
+    for g in range(number_of_generations):
+
         # A new generation
         print "generation", g
-
-        #selection
-        if fitness_function == calculate_fitnesses:
-            pop = toolbox.selectTournament(pop)
-        else:
-            pop = toolbox.select(pop)
 
         # switch function for evaluation
         if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
@@ -77,6 +68,8 @@ def create_choreography(number_of_generations):
 
         # Clone the selected individuals
         offspring = list(map(toolbox.clone, pop))
+
+        # new individuals of the population
         new = []
 
         # crossover
@@ -87,6 +80,7 @@ def create_choreography(number_of_generations):
                 new.append(b)
                 del child1.fitness.values
                 del child2.fitness.values
+
         # mutation
         for mutant in offspring:
             if random.random() < Constants.MUTPB:
@@ -97,6 +91,7 @@ def create_choreography(number_of_generations):
         # create the new offspring with old population and new individuals
         offspring = pop + new
 
+        # evaluate the individuals
         count_individuals = 0
         for ind in offspring:
             ind.fitness.values = fitness_function(ind, pop, toolbox)
@@ -104,8 +99,12 @@ def create_choreography(number_of_generations):
                 count_individuals = count_individuals + 1
         pop[:] = offspring
 
-    print fitness_function
-    print_pop(pop)
+        # selection
+        if fitness_function == calculate_fitnesses:
+            pop = toolbox.selectTournament(pop)
+        else:
+            pop = toolbox.select(pop)
+
     if fitness_function == calculate_fitnesses:
         return toolbox.selectTournament10(pop)
     else:
