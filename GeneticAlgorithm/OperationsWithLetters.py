@@ -41,7 +41,7 @@ def novelty(choreography, population, tools, toolbox):
     for x in archive:
         a = toolbox.individual()
         a.movesList = x
-        pop.append(a)
+        arch.append(a)
     for x in arch:
         x.fitness.values = (0,string_distance(str(choreography), str(x.movesList)))
     pop_resulting = pop_selected + arch

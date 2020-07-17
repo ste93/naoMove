@@ -4,21 +4,21 @@ from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants
 # from GeneticAlgorithm import DEAP_algorithm, Constants
 from GeneticAlgorithm.FileManagement import Archive
 from JsonEditor import jsonEditor
-import winsound
+# import winsound
 
 
 def init():
-    pop = DEAP_algorithm.create_choreography()
+    pop = DEAP_algorithm.create_choreography(100)
 
 
     # Gather all the fitnesses in one list and print the stats
     fits = [ind.fitness.values[0] for ind in pop]
 
-    for i in range(10):
-        print pop[i], ind.fitness.values
-        # Archive.addToResults({"choreo" : str("".join(pop[i])), "value": fits[i]})
-        # with open(Constants.results_path, "a") as myfile:
-        #     myfile.write("\n"  + str("".join(pop[i])))
+    for ind in pop:
+        print ind, ind.fitness.values
+        Archive.addToResults({"choreo" : str("".join(pop[i])), "value": fits[i]})
+        with open(Constants.results_path, "a") as myfile:
+            myfile.write("\n"  + str("".join(pop[i])))
 
 
     # jsonEditor.dumpDict("json/results", {"results":a})

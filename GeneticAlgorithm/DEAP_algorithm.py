@@ -1,4 +1,5 @@
 import random
+import time
 
 import bcolors
 from deap import base, creator, tools
@@ -6,20 +7,28 @@ from GeneticAlgorithm import Individual, OperationsWithLetters as Operations , C
 from GeneticAlgorithm.FileManagement import Archive
 
 
-def calculate_fitnesses(pop, toolbox):
-    x = list(map(toolbox.evaluate, pop))
-    return x
+def calculate_fitnesses(ind, pop, toolbox):
+    try:
+        return toolbox.evaluate(ind)
+    except Exception as e:
+        print "fitness"
+        print e
 
 
-def calculate_novelty(pop, toolbox):
-    list = []
+def calculate_novelty(ind, pop, toolbox):
+    try:
+        return toolbox.evaluate_hybrid(ind, pop, tools,  toolbox)
+    except Exception as e:
+        print "novelty"
+        print e
+
+
+def print_pop(pop):
     for x in pop:
-        list.append(toolbox.evaluate_hybrid(x, pop, tools,  toolbox))
-    return list
+        print x, x.fitness.values
 
 
-
-def create_choreography():
+def create_choreography(number_of_generations):
     Archive.clearArchive()
     # initialization
     fitness_function = calculate_novelty
@@ -34,91 +43,70 @@ def create_choreography():
     toolbox.register("mate", tools.cxTwoPoint)
     toolbox.register("select", tools.selSPEA2, k=100)
     toolbox.register("selectTournament", tools.selTournament, k=100, tournsize = 5)
+    toolbox.register("select10", tools.selSPEA2, k=10)
+    toolbox.register("selectTournament10", tools.selTournament, k=10, tournsize = 5)
+
     # create the population
     pop = toolbox.population(n=Constants.population_size)
     print "population done"
 
-
-    # Evaluate the entire population
-    fitnesses = fitness_function(pop, toolbox)
-    # print pop
+    # first evaluation of the entire population
     count_individuals = 0
-    for ind, fit in zip(pop, fitnesses):
-        if fit > Constants.threshold_f_min:
+    for ind in pop:
+        ind.fitness.values = fitness_function(ind, pop, toolbox)
+        if ind.fitness.values[0] > Constants.threshold_f_min:
             count_individuals = count_individuals + 1
-        ind.fitness.values = fit
 
-
-    # Extracting all the fitnesses for max fits
-    # fits = [ind.fitness.values[0] for ind in pop]
-
-
-    # Variable keeping track of the number of generations
-    g = 0
     # Begin the evolution
     print(bcolors.BLUE + "initialization" + bcolors.ENDC)
-    while  g < 100: # max(fits) < 100  can set a max to the fitness, convergence
+    for g in range(number_of_generations): # max(fits) < 100  can set a max to the fitness, convergence
         # A new generation
-        try:
-            g = g + 1
-            #selection
-            # print fitness_function
-            # pop = toolbox.select(pop)
+        print "generation", g
 
-            if fitness_function == calculate_fitnesses:
-                pop = toolbox.selectTournament(pop)
-            else:
-                pop = toolbox.select(pop)
-                print "novelty"
-            # switch function for evaluation
-            if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
-                fitness_function = calculate_novelty
-                # print "switch novelty"
-            elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
-                fitness_function = calculate_fitnesses
-                # print "switch fitness"
-            # Clone the selected individuals
-            offspring = list(map(toolbox.clone, pop))
-            # print pop
-            # print offspring
-            # crossover
-            new = []
-            for child1, child2 in zip(offspring[::2], offspring[1::2]):
-                if random.random() < Constants.CXPB:
-                    a,b = toolbox.mate(child1, child2)
-                    new.append(a)
-                    new.append(b)
-                    del child1.fitness.values
-                    del child2.fitness.values
+        #selection
+        if fitness_function == calculate_fitnesses:
+            pop = toolbox.selectTournament(pop)
+        else:
+            pop = toolbox.select(pop)
 
-            # mutation
-            for mutant in offspring:
-                if random.random() < Constants.MUTPB:
-                    c, = toolbox.mutate(mutant)
-                    new.append(c)
-                    del mutant.fitness.values
+        # switch function for evaluation
+        if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
+            fitness_function = calculate_novelty
+        elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
+            fitness_function = calculate_fitnesses
 
-            # Evaluate the individuals with an invalid fitness
-            # invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
-            offspring = pop + new
-            # print offspring
-            # print len(offspring)
-            fitnesses = fitness_function(offspring, toolbox)
-            count_individuals = 0
-            for ind, fit in zip(offspring, fitnesses):
-                if fit[0] > Constants.threshold_f_min:
-                    count_individuals = count_individuals + 1
-                    print "higher" , str(ind) ,fit # fii has 2 parts (a,b)
-                    # print fit
-                ind.fitness.values = fit
+        # Clone the selected individuals
+        offspring = list(map(toolbox.clone, pop))
+        new = []
 
-            pop[:] = offspring
-        except Exception as e:
-            print e
-    print pop
+        # crossover
+        for child1, child2 in zip(offspring[::2], offspring[1::2]):
+            if random.random() < Constants.CXPB:
+                a,b = toolbox.mate(child1, child2)
+                new.append(a)
+                new.append(b)
+                del child1.fitness.values
+                del child2.fitness.values
+        # mutation
+        for mutant in offspring:
+            if random.random() < Constants.MUTPB:
+                c, = toolbox.mutate(mutant)
+                new.append(c)
+                del mutant.fitness.values
+
+        # create the new offspring with old population and new individuals
+        offspring = pop + new
+
+        count_individuals = 0
+        for ind in offspring:
+            ind.fitness.values = fitness_function(ind, pop, toolbox)
+            if ind.fitness.values[0] > Constants.threshold_f_min:
+                count_individuals = count_individuals + 1
+        pop[:] = offspring
+
+    print fitness_function
+    print_pop(pop)
     if fitness_function == calculate_fitnesses:
-        return toolbox.selectTournament(pop)
+        return toolbox.selectTournament10(pop)
     else:
-        return toolbox.select(pop)
-
-
+        return toolbox.select10(pop)
