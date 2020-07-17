@@ -7,17 +7,17 @@ from GeneticAlgorithm import Individual, OperationsWithLetters as Operations , C
 from GeneticAlgorithm.FileManagement import Archive
 
 
-def calculate_fitnesses(ind, pop, toolbox):
+def calculate_fitnesses(ind, pop, toolbox, repertoirePath):
     try:
-        return toolbox.evaluate(ind)
+        return toolbox.evaluate(ind, repertoirePath)
     except Exception as e:
         print "fitness"
         print e
 
 
-def calculate_novelty(ind, pop, toolbox):
+def calculate_novelty(ind, pop, toolbox, repertoirePath):
     try:
-        return toolbox.evaluate_hybrid(ind, pop, tools,  toolbox)
+        return toolbox.evaluate_hybrid(ind, pop, tools,  toolbox, repertoirePath)
     except Exception as e:
         print "novelty"
         print e
@@ -30,7 +30,7 @@ def print_pop(pop):
 
 # evaluation_method: 0 fitness, 1 novelty, 2 both
 # def create_choreography(number_of_generations):
-def create_choreography(number_of_generations, evaluation_method, repertoire):
+def create_choreography(number_of_generations, evaluation_method, repertoirePath):
     Archive.clearArchive()
     # initialization
     fitness_function = calculate_fitnesses
@@ -99,7 +99,7 @@ def create_choreography(number_of_generations, evaluation_method, repertoire):
         # evaluate the offspring
         count_individuals = 0
         for ind in offspring:
-            ind.fitness.values = fitness_function(ind, pop, toolbox)
+            ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
             if ind.fitness.values[0] > Constants.threshold_f_min:
                 count_individuals = count_individuals + 1
 

@@ -1,8 +1,8 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.5
-novelty_threshold = 0.5
+fitness_threshold = 0.45
+novelty_threshold = 0.45
 # the threshold considered to calculate feasible individuals
-threshold_f_min = 0.5
+threshold_f_min = 0.45
 
 min_number_of_moves = 5
 max_number_of_moves = 16
@@ -18,8 +18,14 @@ max_number_of_mutations = 4
 population_size = 100
 
 
-archive_path = "json/archive/archive"
-repertoire_path = "json/archive/repertoire"
+archive_path = "json/archive/archive2"
+repertoire_path = [
+    "json/archive/repertoire",
+    "json/archive/repertoire1",
+    "json/archive/repertoire3",
+    "json/archive/repertoire4",
+    "json/archive/repertoire5"
+]
 results_path = "json/archive/results"
 random_path = "json/archive/random"
 list_of_moves_path = "json/archive/list_of_moves"

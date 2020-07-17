@@ -35,7 +35,7 @@ def saveListOfMoves(list_of_moves):
 
 def getRepertoire():
     try:
-        dict = jsonEditor.readDict(GeneticAlgorithm.Constants.repertoire_path)
+        dict = jsonEditor.readDict(GeneticAlgorithm.Constants.repertoire_path[0])
         return dict
     except Exception, e:
         print "error", e
@@ -49,7 +49,7 @@ def getRepertoireWithPath(path):
 
 
 def saveRepertoire(archive):
-    jsonEditor.dumpDict(GeneticAlgorithm.Constants.repertoire_path, archive)
+    jsonEditor.dumpDict(GeneticAlgorithm.Constants.repertoire_path[0], archive)
 
 
 def addToRepertoire(choreography):

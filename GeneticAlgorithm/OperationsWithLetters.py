@@ -62,9 +62,9 @@ def string_distance(a,b):
 
 # the return should be between parenthesis because needs to return a list
 # correct
-def fitness(movesList):
+def fitness(movesList, repertoirePath):
     evaluation = 0
-    repertoire = Archive.getRepertoire()["repertoire"]
+    repertoire = Archive.getRepertoireWithPath(repertoirePath)["repertoire"]
     r = len(repertoire)
     archive = Archive.getArchive()["archive"]
     arch_len = len(archive)
@@ -78,14 +78,14 @@ def fitness(movesList):
     return evaluation
 
 
-def calculate_fitness(movesList):
+def calculate_fitness(movesList, repertoirePath):
     # print "fitness"
-    return (fitness(movesList),0)
+    return (fitness(movesList, repertoirePath),0)
 
 
-def calculate_fitness_and_novelty(choreography, population, tools, toolbox):
+def calculate_fitness_and_novelty(choreography, population, tools, toolbox, repertoirePath):
     # print "calculate_novelty"
-    fitness_value = fitness(choreography)
+    fitness_value = fitness(choreography, repertoirePath)
     novelty_value = novelty(choreography, population, tools, toolbox)
     archive = Archive.getArchive()["archive"]
     if len(archive) > 0 and fitness_value > Constants.fitness_threshold and novelty_value > Constants.novelty_threshold:

@@ -7,20 +7,16 @@ from JsonEditor import jsonEditor
 # import winsound
 
 
-def init(index, name):
+def init(name, index, ngen, repertoireIndex, evaluation_method):
+    full_name = "json/archive/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method)
     start_time = time.time()
-    ngen = 100
-    pop = DEAP_algorithm.create_choreography(ngen)
-
+    repertoirePath = Constants.repertoire_path[repertoireIndex]
+    pop = DEAP_algorithm.create_choreography(ngen, evaluation_method, repertoirePath)
 
     # Gather all the fitnesses in one list and print the stats
     fits = [ind.fitness.values[0] for ind in pop]
     time_elapsed  =(time.time() - start_time)
     print("--- %s seconds ---" % time_elapsed)
-
-
-
-
 
     length = len(pop)
     mean = sum(fits) / length
@@ -40,33 +36,38 @@ def init(index, name):
                "population_size": Constants.population_size,
                "CXPB": Constants.CXPB,
                "MUTPB": Constants.MUTPB,
-               "algorithm": "as paper"
+               "evaluation_method": evaluation_method
                                    }
     print("  Min %s" % min(fits))
     print("  Max %s" % max(fits))
     print("  Avg %s" % mean)
     print("  Std %s" % std)
-    filename = name + str(index)
+    results = []
+    print pop
     for ind in pop:
         print ind, ind.fitness.values
-        Archive.saveResultsToPath({"choreo": str("".join(pop[i])),
-                                   "value": fits[i],
-                                   "time elapsed": time_elapsed,
-                                   "statistics": statistics,
-                                   "archive" : Archive.getArchive()["archive"],
-                                   "list_of_moves" : Constants.list_of_moves,
-                                   "repertoire": Archive.getRepertoire(),
-                                   "parameters": parameters
-                                   }, filename)
-        with open(filename, "a") as myfile:
+        results.append({"ind": ind, "value": ind.fitness.values })
+        with open(full_name, "a") as myfile:
             myfile.write("\n" + str("".join(pop[i])))
+
+    Archive.saveResultsToPath({"time elapsed": time_elapsed,
+                               "statistics": statistics,
+                               "archive" : Archive.getArchive()["archive"],
+                               "list_of_moves" : Constants.list_of_moves,
+                               "repertoire": Archive.getRepertoire(),
+                               "parameters": parameters,
+                               "results": results
+                               }, full_name)
     # frequency = 2500  # Set Frequency To 2500 Hertz
     # duration = 3000  # Set Duration To 1000 ms == 1 second
     # winsound.Beep(frequency, duration)
 
 try:
-    for i in range(1):
-        init("prova100_",i)
+    for i in range(6):
+        for j in [60, 100, 200, 500]:
+            for k in [0,1,2]:
+                for l in [0,1,2,3,4]:
+                    init("prova", i, j, l, k)
 
 except Exception as e:
     print "exception", e
