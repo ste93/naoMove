@@ -7,6 +7,7 @@ from JsonEditor import jsonEditor
 # import winsound
 
 
+# repertoire index is the index of the corresponding path in constants
 def init(name, index, ngen, repertoireIndex, evaluation_method):
     full_name = "json/archive/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method)
     start_time = time.time()
@@ -48,7 +49,7 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
         print ind, ind.fitness.values
         results.append({"ind": ind, "value": ind.fitness.values })
         with open(full_name, "a") as myfile:
-            myfile.write("\n" + str("".join(pop[i])))
+            myfile.write("\n" + str("".join(ind)))
 
     Archive.saveResultsToPath({"time elapsed": time_elapsed,
                                "statistics": statistics,
@@ -62,12 +63,15 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
     # duration = 3000  # Set Duration To 1000 ms == 1 second
     # winsound.Beep(frequency, duration)
 
+# init("prova", 1, 59, 0, 2)
 try:
-    for i in range(6):
-        for j in [60, 100, 200, 500]:
-            for k in [0,1,2]:
-                for l in [0,1,2,3,4]:
-                    init("prova", i, j, l, k)
+
+    init("prova_alg_2",1, 100,  0, 1)
+    # for i in range(6):
+    #     for j in [60, 100, 200, 500]:
+    #         for k in [0,1,2]:
+    #             for l in [0,1,2,3,4]:
+    #                 init("prova_alg_2", i, j, l, k)
 
 except Exception as e:
     print "exception", e

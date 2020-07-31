@@ -1,8 +1,8 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.45
-novelty_threshold = 0.45
+fitness_threshold = 0.3
+novelty_threshold = 0.17
 # the threshold considered to calculate feasible individuals
-threshold_f_min = 0.45
+threshold_f_min = 0.3
 
 min_number_of_moves = 5
 max_number_of_moves = 16

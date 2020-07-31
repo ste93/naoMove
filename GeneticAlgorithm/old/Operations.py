@@ -1,7 +1,7 @@
 import json
 import random
 
-import Constants
+import GeneticAlgorithm.Constants
 from JsonEditor import jsonEditor
 
 
@@ -37,6 +37,7 @@ def fitness(movesList):
 
 
 def mutation(movesList):
-    for _ in range(random.randint(1,Constants.max_number_of_mutations)):
-        movesList[random.randint(0,len(movesList)-1)] = jsonEditor.readDict(random.choice(Constants.list_of_moves))
+    for _ in range(random.randint(1, GeneticAlgorithm.Constants.max_number_of_mutations)):
+        movesList[random.randint(0,len(movesList)-1)] = jsonEditor.readDict(random.choice(
+            GeneticAlgorithm.Constants.list_of_moves))
     return (movesList,)

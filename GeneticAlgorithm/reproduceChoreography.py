@@ -9,7 +9,6 @@ import Constants
 from FileManagement import Archive
 
 
-
 def readAndMove(filename, t):
     listAngles = jsonEditor.readDict(filename)
     # print (listAngles)
@@ -26,7 +25,7 @@ os.chdir("../")
 
 # a = Archive.getRepertoire()["repertoire"][8]["choreo"]
 # print (bcolors.OKMSG + a + bcolors.ENDC)
-reproduce("s")
+reproduce(['i', 'l', 'k', 'a', 'd', 'b', 'l', 'f', 'h', 'd', 'i', 'a', 'b', 'e', 'f', 'c'])
 # reproduce(['f', 'k', 'i', 'g', 'm', 'h', 'l', 'j'])
 
 # reproduce(['m', 'k', 'j', 'g', 'l', 'h', 'f', 'i'])

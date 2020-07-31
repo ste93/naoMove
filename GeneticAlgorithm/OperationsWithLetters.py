@@ -1,63 +1,25 @@
-import json
 import random
 import Constants
-from distance import jaccard
-from strsimpy.jaro_winkler import JaroWinkler
+from GeneticAlgorithm import TSelNovelty
 from GeneticAlgorithm.FileManagement import Archive
-
-
-def evaluate_duplicates(choreography):
-    seen = set()
-    for x in choreography:
-        item = json.dumps(x)
-        if item not in seen:
-            seen.add(item)
-
-    # uniq = [x for x in movesList if x not in seen and not seen.add(x)]
-    # print "evaluated duplicates"
-    return len(seen)/len(choreography)
-
-
-# def add_to_archive(choreography, fitness, novelty):
-#     archive = Archive.getRepertoire()["archive"]
-#     r = len(archive)
+from GeneticAlgorithm.StringOperations import string_similarity
 
 
 
 
-def novelty(choreography, population, tools, toolbox):
+def novelty(choreography, population):
     archive = Archive.getArchive()["archive"]
     if len(archive) == 0:
         return 0
-    pop = []
-    for x in population:
-        a = toolbox.individual()
-        a.movesList = x
-        pop.append(a)
-    for x in pop:
-        x.fitness.values = (0,string_distance(str(choreography), str(x.movesList)))
-    pop_selected = tools.selTournament(population, k=4, tournsize=5)
-    arch = []
-    for x in archive:
-        a = toolbox.individual()
-        a.movesList = x
-        arch.append(a)
-    for x in arch:
-        x.fitness.values = (0,string_distance(str(choreography), str(x.movesList)))
-    pop_resulting = pop_selected + arch
-    # print pop_resulting
-    r = min(len(archive), Constants.max_arch)
-    ind_to_compare = tools.selBest(pop_resulting, k=r)
+
+    pop_selected = TSelNovelty.select(population, choreography, archive)
+    # pop_selected = tools.selTournament(population, k=4, tournsize=5)
     value = 0
-    for x in ind_to_compare:
-        value = value + string_distance(str(choreography), str(x))
-    value = value / r
+    for x in pop_selected:
+        value = value + string_similarity(str(choreography), str(x))
+    value = value / len(pop_selected)
+    # print "novelty value", value
     return value
-
-
-def string_distance(a,b):
-    jarowinkler = JaroWinkler()
-    return jarowinkler.similarity(a,b) + jaccard(a,b)
 
 
 # the return should be between parenthesis because needs to return a list
@@ -70,8 +32,8 @@ def fitness(movesList, repertoirePath):
     arch_len = len(archive)
 
     for x in repertoire:
-        evaluation = evaluation + string_distance(x["choreo"],movesList)
-    evaluation = evaluation / (2*r)
+        evaluation = evaluation + string_similarity(x["choreo"], movesList)
+    evaluation = evaluation / (r)
     # evaluation = (evaluation + evaluate_duplicates(movesList))/2
     if arch_len == 0 and evaluation > Constants.fitness_threshold: #case 1
         Archive.addToArchive(movesList)
@@ -83,12 +45,14 @@ def calculate_fitness(movesList, repertoirePath):
     return (fitness(movesList, repertoirePath),0)
 
 
-def calculate_fitness_and_novelty(choreography, population, tools, toolbox, repertoirePath):
+def calculate_fitness_and_novelty(choreography, population, repertoirePath):
     # print "calculate_novelty"
-    fitness_value = fitness(choreography, repertoirePath)
-    novelty_value = novelty(choreography, population, tools, toolbox)
+    fitness_value = 0 # fitness(choreography, repertoirePath)
+    novelty_value = novelty(choreography, population)
     archive = Archive.getArchive()["archive"]
-    if len(archive) > 0 and fitness_value > Constants.fitness_threshold and novelty_value > Constants.novelty_threshold:
+    # if len(archive) > 0 and fitness_value > Constants.fitness_threshold and novelty_value > Constants.novelty_threshold:
+    #     Archive.addToArchive(choreography)
+    if len(archive) == 0 or (0 < novelty_value < Constants.novelty_threshold):
         Archive.addToArchive(choreography)
     return (fitness_value,novelty_value)
 

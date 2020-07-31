@@ -73,29 +73,8 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
             elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
                 fitness_function = calculate_fitnesses
 
-        # evaluate the offspring
-        count_individuals = 0
-        for ind in pop:
-            # print fitness_function
-            ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
-            # print ind, ind.fitness.values
-            if ind.fitness.values[0] > Constants.threshold_f_min:
-                count_individuals = count_individuals + 1
-
-        # selection
-        if evaluation_method == 2:
-            if fitness_function == calculate_fitnesses:
-                parents = toolbox.selectTournament10(pop)
-            else:
-                parents = toolbox.select10(pop)
-                # print "selection novelty"
-        elif evaluation_method == 1:
-            parents = toolbox.select10(pop)
-        else:
-            parents = toolbox.selectTournament10(pop)
-
         # Clone the selected individuals
-        offspring = list(map(toolbox.clone, parents))
+        offspring = list(map(toolbox.clone, pop))
 
         # new individuals of the population
         new = []
@@ -115,19 +94,36 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
         # mutation
         for mutant in new:
             if random.random() < Constants.MUTPB:
-                toolbox.mutate(mutant)
+                print mutant
+                c, = toolbox.mutate(mutant)
+                print mutant
+                new.append(c)
                 del mutant.fitness.values
+
         # create the new offspring with old population and new individuals
-        pop = parents  + new
+        offspring = pop + new
 
-    for ind in pop:
-        # print fitness_function
-        ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
-        # print ind, ind.fitness.values
-        if ind.fitness.values[0] > Constants.threshold_f_min:
-            count_individuals = count_individuals + 1
+        # evaluate the offspring
+        count_individuals = 0
+        for ind in offspring:
+            # print fitness_function
+            ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
+            # print ind, ind.fitness.values
+            if ind.fitness.values[0] > Constants.threshold_f_min:
+                count_individuals = count_individuals + 1
 
-    print_pop(pop)
+        # selection
+        if evaluation_method == 2:
+            if fitness_function == calculate_fitnesses:
+                pop = toolbox.selectTournament(offspring)
+            else:
+                pop = toolbox.select(offspring)
+                # print "selection novelty"
+        elif evaluation_method == 1:
+            pop = toolbox.select(offspring)
+        else:
+            pop = toolbox.selectTournament(offspring)
+
     if evaluation_method == 2:
         if fitness_function == calculate_fitnesses:
             return toolbox.selectTournament10(pop)
