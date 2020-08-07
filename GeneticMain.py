@@ -1,10 +1,6 @@
 import time
 from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants
-
-# from GeneticAlgorithm import DEAP_algorithm, Constants
 from GeneticAlgorithm.FileManagement import Archive
-from JsonEditor import jsonEditor
-# import winsound
 
 
 # repertoire index is the index of the corresponding path in constants
@@ -27,7 +23,7 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
     parameters = {
                "generations": ngen,
                "fitness_threshold": Constants.fitness_threshold,
-               "novelty_threshold": Constants.novelty_threshold,
+               "dissim_threshold": Constants.dissim_threshold,
                "threshold_f_min": Constants.threshold_f_min,
                "number_of_moves": Constants.number_of_moves,
                "t_min ": Constants.t_min,
@@ -44,12 +40,15 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
     print("  Avg %s" % mean)
     print("  Std %s" % std)
     results = []
-    print pop
     for ind in pop:
-        print ind, ind.fitness.values
-        results.append({"ind": ind, "value": ind.fitness.values })
+        print "".join(ind), ind.fitness.values
+        results.append({"ind": "".join(ind), "value": ind.fitness.values })
         with open(full_name, "a") as myfile:
             myfile.write("\n" + str("".join(ind)))
+    for element in Archive.getArchive()["archive"]:
+        with open(full_name + "archive", "a") as myfile:
+            myfile.write("\n" + str("".join(element)))
+
 
     Archive.saveResultsToPath({"time elapsed": time_elapsed,
                                "statistics": statistics,
@@ -59,14 +58,9 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
                                "parameters": parameters,
                                "results": results
                                }, full_name)
-    # frequency = 2500  # Set Frequency To 2500 Hertz
-    # duration = 3000  # Set Duration To 1000 ms == 1 second
-    # winsound.Beep(frequency, duration)
 
-# init("prova", 1, 59, 0, 2)
 try:
-
-    init("prova_alg_2",1, 100,  0, 1)
+    init("prova_alg_2",1, 100,  3, 2)
     # for i in range(6):
     #     for j in [60, 100, 200, 500]:
     #         for k in [0,1,2]:
@@ -75,13 +69,3 @@ try:
 
 except Exception as e:
     print "exception", e
-
-# frequency = 2500  # Set Frequency To 2500 Hertz
-# duration = 1000  # Set Duration To 1000 ms == 1 second
-# winsound.Beep(frequency, duration)
-# time.sleep(1)
-# winsound.Beep(frequency, duration)
-# time.sleep(1)
-# winsound.Beep(frequency, duration)
-# time.sleep(1)
-# winsound.Beep(frequency, duration)

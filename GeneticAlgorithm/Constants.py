@@ -1,18 +1,18 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.3
-novelty_threshold = 0.17
+fitness_threshold = 0.2
+dissim_threshold = 0.3
 # the threshold considered to calculate feasible individuals
-threshold_f_min = 0.3
+threshold_f_min = 0.2
 
-min_number_of_moves = 5
-max_number_of_moves = 16
+# min_number_of_moves = 5
+# max_number_of_moves = 16
 number_of_moves = 16
+# parameter used to switch to fitness
 t_min = 10
+# parameter used to switch to hybrid
 t_max = 10
-max_arch = 7
-
-# min_exec_time = 1
-# max_exec_time = 16
+# max number of archive entries considered
+max_arch = 4
 
 max_number_of_mutations = 4
 population_size = 100
@@ -32,16 +32,8 @@ list_of_moves_path = "json/archive/list_of_moves"
 # CXPB  is the probability with which two individuals are crossed
 CXPB = 0.5
 # MUTPB is the probability for mutating an individual
-MUTPB = 0.2
+MUTPB = 0.35
 
-
-# repertoire = {
-#     "choreo1" : "abcdabef",
-#     "choreo2" : "abcgbfea",
-#     "choreo3" : "hibebajk",
-#     "choreo3_2" : "ldaebmda",
-#     "choreo4" : "bldanoba"
-# }
 
 list_of_moves = {
     "a": "json/finiti/armsdown",

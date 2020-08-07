@@ -7,11 +7,13 @@ def dumpDict(filename, dict):
         json.dump(dict, fp)
     fp.close()
 
+
 def readKinectDict(filename):
     with open("json/kinect/" + filename + '.json','r') as fp:
         file = json.load(fp)
         fp.close()
         return file
+
 
 def readDict(filename):
     try:
