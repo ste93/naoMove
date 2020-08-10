@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import time
 from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants
@@ -7,7 +8,9 @@ from GeneticAlgorithm.FileManagement import Archive
 # repertoire index is the index of the corresponding path in constants
 def init(name, index, ngen, repertoireIndex, evaluation_method):
     now = datetime.now()  # current date and time
-
+    dir = "json/archive/risultati genetico/"+ str(evaluation_method) +"/"
+    if not os.path.exists(dir):
+        os.mkdir(dir)
     full_name = "json/archive/risultati genetico/"+ str(evaluation_method) +"/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method) + now.strftime("%Y%m%d-%H:%M")
     start_time = time.time()
     repertoirePath = Constants.repertoire_path[repertoireIndex]
@@ -63,7 +66,7 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
 
 try:
 
-    init("prova_alg_2",1, 100,  0, 0)
+    init("prova_alg_2",1, 100,  0, 1)
     # for i in range(6):
     #     for j in [60, 100, 200, 500]:
     #         for k in [0,1,2]:
