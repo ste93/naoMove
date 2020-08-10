@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants
 from GeneticAlgorithm.FileManagement import Archive
@@ -5,7 +6,9 @@ from GeneticAlgorithm.FileManagement import Archive
 
 # repertoire index is the index of the corresponding path in constants
 def init(name, index, ngen, repertoireIndex, evaluation_method):
-    full_name = "json/archive/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method)
+    now = datetime.now()  # current date and time
+
+    full_name = "json/archive/risultati genetico/"+ str(evaluation_method) +"/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method) + now.strftime("%Y%m%d-%H:%M")
     start_time = time.time()
     repertoirePath = Constants.repertoire_path[repertoireIndex]
     pop = DEAP_algorithm.create_choreography(ngen, evaluation_method, repertoirePath)
@@ -24,7 +27,6 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
                "generations": ngen,
                "fitness_threshold": Constants.fitness_threshold,
                "dissim_threshold": Constants.dissim_threshold,
-               "threshold_f_min": Constants.threshold_f_min,
                "number_of_moves": Constants.number_of_moves,
                "t_min ": Constants.t_min,
                "t_max": Constants.t_max,
@@ -60,7 +62,8 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
                                }, full_name)
 
 try:
-    init("prova_alg_2",1, 100,  3, 2)
+
+    init("prova_alg_2",1, 100,  0, 0)
     # for i in range(6):
     #     for j in [60, 100, 200, 500]:
     #         for k in [0,1,2]:

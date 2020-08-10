@@ -1,18 +1,18 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.2
-dissim_threshold = 0.3
+fitness_threshold = 0.3
+dissim_threshold = 0.8
 # the threshold considered to calculate feasible individuals
-threshold_f_min = 0.2
+# threshold_f_min = 0.3
 
 # min_number_of_moves = 5
 # max_number_of_moves = 16
 number_of_moves = 16
 # parameter used to switch to fitness
-t_min = 10
+t_min = 2
 # parameter used to switch to hybrid
-t_max = 10
+t_max = 13
 # max number of archive entries considered
-max_arch = 4
+max_arch = 5
 
 max_number_of_mutations = 4
 population_size = 100
