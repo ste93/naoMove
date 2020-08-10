@@ -18,7 +18,7 @@ max_number_of_mutations = 4
 population_size = 100
 
 
-archive_path = "json/archive/archive2"
+archive_path = "json/archive/archive"
 repertoire_path = [
     "json/archive/repertoire",
     "json/archive/repertoire1",
