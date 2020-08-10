@@ -29,10 +29,9 @@ def fitness(movesList, repertoirePath):
     for x in repertoire:
         evaluation = evaluation + string_similarity("".join(x["choreo"]), "".join(movesList))
     evaluation = evaluation / (r)
-    #  todo uncomment
-    # if evaluation > Constants.fitness_threshold:
-    #     if arch_len == 0 or 0 < dissim(movesList) < Constants.dissim_threshold:
-    #         Archive.addToArchive("".join(movesList))
+    if evaluation > Constants.fitness_threshold:
+        if arch_len == 0 or 0 < dissim(movesList) < Constants.dissim_threshold:
+            Archive.addToArchive("".join(movesList))
     return evaluation
 
 
