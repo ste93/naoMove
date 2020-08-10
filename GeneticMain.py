@@ -66,12 +66,12 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
 
 try:
 
-    init("prova_alg_2",1, 100,  0, 1)
-    # for i in range(6):
-    #     for j in [60, 100, 200, 500]:
-    #         for k in [0,1,2]:
-    #             for l in [0,1,2,3,4]:
-    #                 init("prova_alg_2", i, j, l, k)
+    init("prova_alg_2",1, 100,  0, 2)
+    # for index in range(6):
+    #     for generations in [60, 100, 200, 500]:
+    #         for evaluation_method in [0,1,2]:
+    #             for repertoire_path in [0,1,2,3,4]:
+    #                 init("prova_alg_2", index, generations, repertoire_path, evaluation_method)
 
 except Exception as e:
     print "exception", e
