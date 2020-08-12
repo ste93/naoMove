@@ -1,12 +1,14 @@
 import bcolors
-from deap import base, creator, tools
+from deap import creator, tools
 from GeneticAlgorithm.StringOperations import string_similarity
 
 
-def create_individuals(population, creator, individual_to_compute_novelty, is_archive):
+def create_individuals(population, individual_to_compute_novelty, is_archive):
     new_population = []
     first = True
     for individual_in_population in population:
+        # the individual is excluded from the population (is not excluded if there is more than one copy of it
+        # the individual is not excluded from the archive
         if ("".join(individual_to_compute_novelty) != "".join(individual_in_population) or not first) and not is_archive:
             new_individual = creator.Individual2("".join(individual_in_population))
             new_individual.fitness.values = (string_similarity("".join(individual_to_compute_novelty),
@@ -17,14 +19,15 @@ def create_individuals(population, creator, individual_to_compute_novelty, is_ar
     return new_population
 
 
+# correct
 def select(population, individual_to_compute_novelty, archive):
     # select the individuals for evaluation
     # select the most similar to choreography
-    new_population = create_individuals(population, creator, individual_to_compute_novelty, False)
+    new_population = create_individuals(population, individual_to_compute_novelty, False)
 
     pop_selected = tools.selTournament(new_population, k=4, tournsize=5)
     # select the most similar individuals to choreography in archive U selected before
-    arch = create_individuals(archive, creator, individual_to_compute_novelty, True)
+    arch = create_individuals(archive, individual_to_compute_novelty, True)
 
     # the whole population is composed by selected individuals and archive
     pop_resulting = pop_selected + arch

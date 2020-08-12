@@ -36,7 +36,7 @@ def fitness(movesList, repertoirePath):
 
 
 def calculate_fitness(movesList, repertoirePath):
-    return (fitness(movesList, repertoirePath),0)
+    return (fitness(movesList, repertoirePath), 0)
 
 
 def calculate_fitness_and_novelty(choreography, population, repertoirePath):
@@ -49,3 +49,11 @@ def mutation(movesList):
     for _ in range(random.randint(1,Constants.max_number_of_mutations)):
         movesList[random.randint(0,len(movesList)-1)] = random.choice(Constants.list_of_moves.keys())
     return (movesList,)
+
+
+def init_individual():
+    moves_list = []
+    for _ in range(Constants.number_of_moves):
+            move = random.choice(Constants.list_of_moves.keys())
+            moves_list.append(move)
+    return moves_list

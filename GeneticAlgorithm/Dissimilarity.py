@@ -2,7 +2,7 @@ from GeneticAlgorithm import Constants
 from GeneticAlgorithm.FileManagement import Archive
 from GeneticAlgorithm.StringOperations import string_similarity
 
-
+#correct
 def dissim(individual):
     archive = Archive.getArchive()["archive"]
     values = []

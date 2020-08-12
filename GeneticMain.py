@@ -8,10 +8,13 @@ from GeneticAlgorithm.FileManagement import Archive
 # repertoire index is the index of the corresponding path in constants
 def init(name, index, ngen, repertoireIndex, evaluation_method):
     now = datetime.now()  # current date and time
-    dir = "json/archive/risultati genetico/"+ str(evaluation_method) +"/"
-    if not os.path.exists(dir):
-        os.mkdir(dir)
-    full_name = "json/archive/risultati genetico/"+ str(evaluation_method) +"/" + name + "_" + str(index) + "_" + str(ngen) + "_" + str(repertoireIndex) + "_"+ str(evaluation_method) + now.strftime("%Y%m%d-%H:%M")
+    full_name = "json/archive/risultati genetico/"+ str(evaluation_method) +\
+                "/" + "fit " + str(Constants.fitness_threshold) + " dissim " + str(Constants.dissim_threshold) + "/"\
+                + name + "_" + str(index) + "_" + str(ngen) + "_" + \
+                str(repertoireIndex) + "_"+ str(evaluation_method)+ "_" + \
+                now.strftime("%Y%m%d-%H:%M") + "/"
+    if not os.path.exists(full_name):
+        os.makedirs(full_name)
     start_time = time.time()
     repertoirePath = Constants.repertoire_path[repertoireIndex]
     pop = DEAP_algorithm.create_choreography(ngen, evaluation_method, repertoirePath)
@@ -36,10 +39,10 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
                "max_arch": Constants.max_arch,
                "max_number_of_mutations": Constants.max_number_of_mutations,
                "population_size": Constants.population_size,
-               "CXPB": Constants.CXPB,
+               # "CXPB": Constants.CXPB,
                "MUTPB": Constants.MUTPB,
                "evaluation_method": evaluation_method
-                                   }
+               }
     print("  Min %s" % min(fits))
     print("  Max %s" % max(fits))
     print("  Avg %s" % mean)
@@ -48,10 +51,10 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
     for ind in pop:
         print "".join(ind), ind.fitness.values
         results.append({"ind": "".join(ind), "value": ind.fitness.values })
-        with open(full_name, "a") as myfile:
+        with open(full_name + "results_serialized", "a") as myfile:
             myfile.write("\n" + str("".join(ind)))
     for element in Archive.getArchive()["archive"]:
-        with open(full_name + "archive", "a") as myfile:
+        with open(full_name + "archive_serialized", "a") as myfile:
             myfile.write("\n" + str("".join(element)))
 
 
@@ -62,16 +65,16 @@ def init(name, index, ngen, repertoireIndex, evaluation_method):
                                "repertoire": Archive.getRepertoire(),
                                "parameters": parameters,
                                "results": results
-                               }, full_name)
+                               }, full_name + "results")
+
 
 try:
-
-    init("prova_alg_2",1, 100,  0, 2)
-    # for index in range(6):
-    #     for generations in [60, 100, 200, 500]:
-    #         for evaluation_method in [0,1,2]:
-    #             for repertoire_path in [0,1,2,3,4]:
-    #                 init("prova_alg_2", index, generations, repertoire_path, evaluation_method)
+    # init("prova_alg_2",1, 500,  1, 2)
+    for index in range(6):
+        for generations in [60, 100, 200, 500]:
+            for evaluation_method in [0,1,2]:
+                for repertoire_path in [0,1,2,3,4]:
+                    init("prova_alg_2", index, generations, repertoire_path, evaluation_method)
 
 except Exception as e:
     print "exception", e

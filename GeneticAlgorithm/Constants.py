@@ -1,6 +1,6 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.3
-dissim_threshold = 0.8
+fitness_threshold = 0.33
+dissim_threshold = 0.6
 # the threshold considered to calculate feasible individuals
 # threshold_f_min = 0.3
 
@@ -26,11 +26,11 @@ repertoire_path = [
     "json/archive/repertoire4",
     "json/archive/repertoire5"
 ]
-results_path = "json/archive/results"
-random_path = "json/archive/random"
+
+# results_path = "json/archive/results"
+# random_path = "json/archive/random"
 list_of_moves_path = "json/archive/list_of_moves"
-# CXPB  is the probability with which two individuals are crossed
-CXPB = 0.5
+
 # MUTPB is the probability for mutating an individual
 MUTPB = 0.35
 
