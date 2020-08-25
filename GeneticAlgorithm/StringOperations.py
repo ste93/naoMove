@@ -1,5 +1,5 @@
+from pyjarowinkler import distance as jw
 from distance import jaccard
-from strsimpy.jaro_winkler import JaroWinkler
 
 
 # similar is 1
@@ -7,5 +7,12 @@ from strsimpy.jaro_winkler import JaroWinkler
 def string_similarity(a, b):
     a = "".join(a)
     b = "".join(b)
-    jarowinkler = JaroWinkler()
-    return (jarowinkler.similarity(a,b) + 1 - jaccard(a,b))/2
+    return (jw.get_jaro_distance(a,b) + 1 - jaccard(a,b))/2
+
+
+# similar is 0
+# dissimilar is 1
+def string_dissimilarity(a, b):
+    a = "".join(a)
+    b = "".join(b)
+    return 1 - ((jw.get_jaro_distance(a,b) + 1 - jaccard(a,b))/2)

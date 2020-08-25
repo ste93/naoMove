@@ -1,14 +1,15 @@
 from GeneticAlgorithm import Constants
-from GeneticAlgorithm.FileManagement import Archive
-from GeneticAlgorithm.StringOperations import string_similarity
+from GeneticAlgorithm.FileManagement import FileManagement
+from GeneticAlgorithm.StringOperations import string_dissimilarity
 
-#correct
+
 def dissim(individual):
-    archive = Archive.getArchive()["archive"]
+    archive = FileManagement.getArchive()["archive"]
     values = []
     for x in archive:
-        values.append(string_similarity("".join(x), "".join(individual)))
-    values.sort(reverse=True)
+        values.append(string_dissimilarity("".join(x), "".join(individual)))
+    # here I need to select the most similar images (min dissimilarity)
+    values.sort()
     max_len = min(Constants.max_arch, len(archive))
     dissimilarity = 0
     for i in range(0, max_len):

@@ -1,6 +1,4 @@
 # the thresholds considered when need to add a choreography to the archive
-fitness_threshold = 0.33
-dissim_threshold = 0.6
 # the threshold considered to calculate feasible individuals
 # threshold_f_min = 0.3
 
@@ -19,7 +17,7 @@ population_size = 100
 
 
 archive_path = "json/archive/archive"
-repertoire_path = [
+repertoire_paths = [
     "json/archive/repertoire",
     "json/archive/repertoire1",
     "json/archive/repertoire3",

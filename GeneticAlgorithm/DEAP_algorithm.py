@@ -3,20 +3,20 @@ import random
 import bcolors
 from deap import base, creator, tools
 from GeneticAlgorithm import OperationsWithLetters as Operations , Constants
-from GeneticAlgorithm.FileManagement import Archive
+from GeneticAlgorithm.FileManagement import FileManagement
+from Mathematical.plot2d import plot2d
 
-
-def calculate_fitnesses(ind, pop, toolbox, repertoirePath):
+def calculate_fitnesses(ind, pop, toolbox, parameters):
     try:
-        return toolbox.evaluate(ind, repertoirePath)
+        return toolbox.evaluate(ind, parameters)
     except Exception as e:
         print "fitness"
         print e
 
 
-def calculate_novelty(ind, pop, toolbox, repertoirePath):
+def calculate_novelty(ind, pop, toolbox, parameters):
     try:
-        return toolbox.evaluate_hybrid(ind, pop, repertoirePath)
+        return toolbox.evaluate_hybrid(ind, pop, parameters)
     except Exception as e:
         print "novelty"
         print e
@@ -29,16 +29,18 @@ def print_pop(pop):
 
 # evaluation_method: 0 fitness, 1 novelty, 2 both
 # def create_choreography(number_of_generations):
-def create_choreography(number_of_generations, evaluation_method, repertoirePath):
-    Archive.clearArchive()
+# def create_choreography(parameters, number_of_generations, evaluation_method, repertoirePath):
+def create_choreography(parameters):
+    random.seed(parameters.random_seed)
+    FileManagement.clearArchive()
 
     # initialization
     fitness_function = calculate_fitnesses
-    if evaluation_method == 1:
+    if parameters.evaluation_method_index == 1:
         fitness_function = calculate_novelty
     creator.create("FitnessMax2", base.Fitness, weights=(1.0,))
     creator.create("Individual2", list, fitness=creator.FitnessMax2)
-    creator.create("FitnessMax", base.Fitness, weights=(1.0, -1.0))
+    creator.create("FitnessMax", base.Fitness, weights=(1.0, 1.0))
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
     toolbox.register("individual", tools.initIterate, creator.Individual, Operations.init_individual)
@@ -47,8 +49,8 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
     toolbox.register("evaluate_hybrid", Operations.calculate_fitness_and_novelty)
     toolbox.register("mutate", Operations.mutation)
     toolbox.register("mate", tools.cxTwoPoint)
-    # toolbox.register("select", tools.selNSGA2, k=Constants.population_size / 10)
-    toolbox.register("select", tools.selSPEA2, k=Constants.population_size / 10)
+    toolbox.register("selectnsga2", tools.selNSGA2, k=Constants.population_size / 10)
+    toolbox.register("selectspea2", tools.selSPEA2, k=Constants.population_size / 10)
     toolbox.register("selectTournament", tools.selTournament, k=Constants.population_size / 10, tournsize = 5)
     # begins the counter of individuals with fitness over threshold over to 0
     count_individuals = 0
@@ -59,12 +61,12 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
 
     # Begin the evolution
     print(bcolors.BLUE + "initialization" + bcolors.ENDC)
-    for g in range(number_of_generations):
+    for g in range(parameters.number_of_generations):
         # A new generation
         print "generation", g
 
         # switch function for evaluation
-        if evaluation_method == 2:
+        if parameters.evaluation_method_index == 2:
             if count_individuals >= Constants.t_max and fitness_function == calculate_fitnesses:
                 fitness_function = calculate_novelty
             elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
@@ -77,18 +79,24 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
         # evaluate the offspring
         count_individuals = 0
         for ind in pop:
-            ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
-            if ind.fitness.values[0] > Constants.fitness_threshold:
+            ind.fitness.values = fitness_function(ind, pop, toolbox, parameters)
+            if ind.fitness.values[0] > parameters.fitness_threshold:
                 count_individuals = count_individuals + 1
 
         # selection
-        if evaluation_method == 2:
+        if parameters.evaluation_method_index == 2:
             if fitness_function == calculate_fitnesses:
                 parents = toolbox.selectTournament(pop)
             else:
-                parents = toolbox.select(pop)
-        elif evaluation_method == 1:
-            parents = toolbox.select(pop)
+                if parameters.multi_objective_selection == "spea2":
+                    parents = toolbox.selectspea2(pop)
+                else:
+                    parents = toolbox.selectnsga2(pop)
+        elif parameters.evaluation_method_index == 1:
+            if parameters.multi_objective_selection == "spea2":
+                parents = toolbox.selectspea2(pop)
+            else:
+                parents = toolbox.selectnsga2(pop)
         else:
             parents = toolbox.selectTournament(pop)
 
@@ -121,15 +129,24 @@ def create_choreography(number_of_generations, evaluation_method, repertoirePath
 
     # last evaluation
     for ind in pop:
-        ind.fitness.values = fitness_function(ind, pop, toolbox, repertoirePath)
+        ind.fitness.values = fitness_function(ind, pop, toolbox, parameters)
 
     # last selection
-    if evaluation_method == 2:
+
+    if parameters.evaluation_method_index == 2:
         if fitness_function == calculate_fitnesses:
-            return toolbox.selectTournament(pop)
+            final = toolbox.selectTournament(pop)
         else:
-            return toolbox.select(pop)
-    elif evaluation_method == 1:
-        return toolbox.select(pop)
+            if parameters.multi_objective_selection == "spea2":
+                final = toolbox.selectspea2(pop)
+            else:
+                final = toolbox.selectnsga2(pop)
+    elif parameters.evaluation_method_index == 1:
+        if parameters.multi_objective_selection == "spea2":
+            final = toolbox.selectspea2(pop)
+        else:
+            final = toolbox.selectnsga2(pop)
     else:
-        return toolbox.selectTournament(pop)
+        final = toolbox.selectTournament(pop)
+    plot2d(pop,final, parameters.full_name)
+    return final

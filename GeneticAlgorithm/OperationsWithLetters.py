@@ -1,46 +1,50 @@
 import random
 import Constants
 from GeneticAlgorithm import TSelNovelty
-from GeneticAlgorithm.FileManagement import Archive
-from GeneticAlgorithm.StringOperations import string_similarity
+from GeneticAlgorithm.FileManagement import FileManagement
+from GeneticAlgorithm.StringOperations import string_dissimilarity, string_similarity
 from Dissimilarity import dissim
 
 
 def novelty(choreography, population):
-    archive = Archive.getArchive()["archive"]
-    if len(archive) == 0:
-        return 0
+    archive = FileManagement.getArchive()["archive"]
+    # if len(archive) == 0:
+    #     return 0
+    # here selects the novelty individuals
     pop_selected = TSelNovelty.select(population, choreography, archive)
     value = 0
     for x in pop_selected:
-        value = value + string_similarity("".join(choreography), "".join(x))
+        value = value + string_dissimilarity("".join(choreography), "".join(x))
     value = value / len(pop_selected)
     return value
 
 
 # the return should be between parenthesis because needs to return a list
 # correct
-def fitness(movesList, repertoirePath):
+def fitness(movesList, parameters):
     evaluation = 0
-    repertoire = Archive.getRepertoireWithPath(repertoirePath)["repertoire"]
-    r = len(repertoire)
-    archive = Archive.getArchive()["archive"]
+    repertoire = FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"]
+    repertoire_size = len(repertoire)
+    archive = FileManagement.getArchive()["archive"]
     arch_len = len(archive)
     for x in repertoire:
         evaluation = evaluation + string_similarity("".join(x["choreo"]), "".join(movesList))
-    evaluation = evaluation / (r)
-    if evaluation > Constants.fitness_threshold:
-        if arch_len == 0 or 0 < dissim(movesList) < Constants.dissim_threshold:
-            Archive.addToArchive("".join(movesList))
+    evaluation = evaluation / repertoire_size
+    # conditions needed to add the choreography to the archive
+    if evaluation > parameters.fitness_threshold:
+        # if the archive has no entries or if the dissimilarity between the
+        # element and the choreographies in the archive is higher than a threshold
+        if arch_len == 0 or dissim(movesList) > parameters.dissim_threshold:
+            FileManagement.addToArchive("".join(movesList))
     return evaluation
 
 
-def calculate_fitness(movesList, repertoirePath):
-    return (fitness(movesList, repertoirePath), 0)
+def calculate_fitness(movesList, parameters):
+    return (fitness(movesList, parameters), 0)
 
 
-def calculate_fitness_and_novelty(choreography, population, repertoirePath):
-    fitness_value = fitness(choreography, repertoirePath)
+def calculate_fitness_and_novelty(choreography, population, parameters):
+    fitness_value = fitness(choreography, parameters)
     novelty_value = novelty(choreography, population)
     return (fitness_value,novelty_value)
 

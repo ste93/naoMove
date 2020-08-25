@@ -1,7 +1,7 @@
 from JsonEditor import jsonEditor
 import GeneticAlgorithm.Constants
 
-
+# todo refactor here
 def getArchive():
     try:
         dict = jsonEditor.readDict(GeneticAlgorithm.Constants.archive_path)
@@ -35,7 +35,7 @@ def saveListOfMoves(list_of_moves):
 
 def getRepertoire():
     try:
-        dict = jsonEditor.readDict(GeneticAlgorithm.Constants.repertoire_path[0])
+        dict = jsonEditor.readDict(GeneticAlgorithm.Constants.repertoire_paths[0])
         return dict
     except Exception, e:
         print "error", e
@@ -49,7 +49,7 @@ def getRepertoireWithPath(path):
 
 
 def saveRepertoire(archive):
-    jsonEditor.dumpDict(GeneticAlgorithm.Constants.repertoire_path[0], archive)
+    jsonEditor.dumpDict(GeneticAlgorithm.Constants.repertoire_paths[0], archive)
 
 
 def addToRepertoire(choreography):
@@ -70,8 +70,8 @@ def saveResults(archive):
 def saveResultsToPath(archive, path):
     jsonEditor.dumpDict(path, archive)
 
-def addToResults(choreography):
-    archive = getResults()
-    archive["results"].append(choreography)
-    saveResults(archive)
+# def addToResults(choreography):
+#     archive = getResults()
+#     archive["results"].append(choreography)
+#     saveResults(archive)
 

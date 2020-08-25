@@ -9,7 +9,7 @@ def create_individuals(population, individual_to_compute_novelty, is_archive):
     for individual_in_population in population:
         # the individual is excluded from the population (is not excluded if there is more than one copy of it
         # the individual is not excluded from the archive
-        if ("".join(individual_to_compute_novelty) != "".join(individual_in_population) or not first) and not is_archive:
+        if "".join(individual_to_compute_novelty) != "".join(individual_in_population) or (not first) or is_archive:
             new_individual = creator.Individual2("".join(individual_in_population))
             new_individual.fitness.values = (string_similarity("".join(individual_to_compute_novelty),
                                                                "".join(new_individual)),)
@@ -19,7 +19,6 @@ def create_individuals(population, individual_to_compute_novelty, is_archive):
     return new_population
 
 
-# correct
 def select(population, individual_to_compute_novelty, archive):
     # select the individuals for evaluation
     # select the most similar to choreography
