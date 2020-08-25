@@ -5,7 +5,7 @@ import bcolors
 
 from JsonEditor import jsonEditor
 from NaoLibs.Common import sendToRobot
-import Constants
+from GeneticAlgorithm import Constants
 from FileManagement import FileManagement
 
 
@@ -25,7 +25,7 @@ os.chdir("../")
 
 # a = Archive.getRepertoire()["repertoire"][8]["choreo"]
 # print (bcolors.OKMSG + a + bcolors.ENDC)
-reproduce(['i', 'l', 'k', 'a', 'd', 'b', 'l', 'f', 'h', 'd', 'i', 'a', 'b', 'e', 'f', 'c'])
+reproduce("bmiaefndlicabkbh")
 # reproduce(['f', 'k', 'i', 'g', 'm', 'h', 'l', 'j'])
 
 # reproduce(['m', 'k', 'j', 'g', 'l', 'h', 'f', 'i'])
