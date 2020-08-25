@@ -80,7 +80,7 @@ def create_choreography(parameters):
         count_individuals = 0
         for ind in pop:
             ind.fitness.values = fitness_function(ind, pop, toolbox, parameters)
-            if ind.fitness.values[0] > parameters.fitness_threshold:
+            if ind.fitness.values[1] > parameters.fitness_threshold:
                 count_individuals = count_individuals + 1
 
         # selection

@@ -40,13 +40,13 @@ def fitness(movesList, parameters):
 
 
 def calculate_fitness(movesList, parameters):
-    return (fitness(movesList, parameters), 0)
+    return ( 0,fitness(movesList, parameters))
 
 
 def calculate_fitness_and_novelty(choreography, population, parameters):
     fitness_value = fitness(choreography, parameters)
     novelty_value = novelty(choreography, population)
-    return (fitness_value,novelty_value)
+    return (novelty_value,fitness_value)
 
 
 def mutation(movesList):
