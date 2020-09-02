@@ -60,9 +60,13 @@ def create_choreography(parameters):
     print "population done"
 
     # Begin the evolution
+    g = 0
     print(bcolors.BLUE + "initialization" + bcolors.ENDC)
+    generations = []
     for g in range(parameters.number_of_generations):
+    # while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
         # A new generation
+        g = g + 1
         print "generation", g
 
         # switch function for evaluation
@@ -73,8 +77,10 @@ def create_choreography(parameters):
                 fitness_function = calculate_fitnesses
         if fitness_function == calculate_novelty:
             print bcolors.OKMSG + "novelty" + bcolors.ENDC
+            generations.append("novelty")
         else:
             print bcolors.ERRMSG + "fitness" + bcolors.ENDC
+            generations.append("fitness")
 
         # evaluate the offspring
         count_individuals = 0
@@ -82,7 +88,7 @@ def create_choreography(parameters):
             ind.fitness.values = fitness_function(ind, pop, toolbox, parameters)
             if ind.fitness.values[0] > parameters.fitness_threshold:
                 count_individuals = count_individuals + 1
-
+        print count_individuals
         # selection
         if parameters.evaluation_method_index == 2:
             if fitness_function == calculate_fitnesses:
@@ -149,4 +155,4 @@ def create_choreography(parameters):
     else:
         final = toolbox.selectTournament(pop)
     plot2d(pop,final, parameters.full_name)
-    return final
+    return final, generations

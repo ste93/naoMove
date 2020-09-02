@@ -6,9 +6,9 @@
 # max_number_of_moves = 16
 number_of_moves = 16
 # parameter used to switch to fitness
-t_min = 2
+t_min = 40
 # parameter used to switch to hybrid
-t_max = 13
+t_max = 70
 # max number of archive entries considered
 max_arch = 5
 

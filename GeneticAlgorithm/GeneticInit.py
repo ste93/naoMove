@@ -7,7 +7,7 @@ from GeneticAlgorithm.Parameters import Parameters
 
 
 # repertoire index is the index of the corresponding path in constants
-def init(number_of_generations, repertoireIndex, evaluation_method_index, random_seed, multi_objective_selection):
+def init(number_of_generations, repertoireIndex, evaluation_method_index, random_seed, multi_objective_selection, dissim_threshold, fitness_threshold):
     now = datetime.now()  # current date and time
     evaluation_method = "fitness"
     if evaluation_method_index == 1:
@@ -19,8 +19,9 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
                             repertoire_path=Constants.repertoire_paths[repertoireIndex],
                             evaluation_method_index=evaluation_method_index,
                             random_seed=random_seed,
-                            dissim_threshold=0.55,
-                            multi_objective_selection=multi_objective_selection)
+                            dissim_threshold=dissim_threshold,
+                            multi_objective_selection=multi_objective_selection,
+                            fitness_threshold=fitness_threshold)
     full_name = "json/archive/risultati genetico/"\
                 + str(Constants.number_of_moves)  + "_" \
                 + str(Constants.max_arch) + "_"\
@@ -52,7 +53,7 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
 
     parameters.set_path(full_name)
     start_time = time.time()
-    pop = DEAP_algorithm.create_choreography(parameters)
+    pop, generations = DEAP_algorithm.create_choreography(parameters)
 
     # Gather all the fitnesses in one list and print the stats
     fits = [ind.fitness.values[0] for ind in pop]
@@ -95,7 +96,9 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
     for element in FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"]:
         with open(full_name + "repertoire_serialized", "a") as myfile:
             myfile.write("\n" + str("".join(element["choreo"])))
-
+    for element in generations:
+        with open(full_name + "generations_serialized", "a") as myfile:
+            myfile.write("\n" + str("".join(element)))
 
 
     FileManagement.saveResultsToPath({"time elapsed": time_elapsed,

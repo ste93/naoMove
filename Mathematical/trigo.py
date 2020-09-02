@@ -1,5 +1,5 @@
 import math
-from Common import constants
+from common import constants
 import numpy as np
 from numpy import linalg as LNG
 
