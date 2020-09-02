@@ -4,7 +4,7 @@ import motion
 from naoqi import ALProxy
 from naoqi import ALModule
 import almath
-import constants
+from common import constants
 import config
 import time
 import qi

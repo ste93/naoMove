@@ -1,4 +1,4 @@
-from GeneticAlgorithm.CalculateThreshold import calculate_fitness_threshold_max
+from GeneticAlgorithm.CalculateThreshold import calculate_fitness_threshold_max, calculate_fitness_threshold
 
 
 class Parameters:

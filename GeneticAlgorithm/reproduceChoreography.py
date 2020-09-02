@@ -25,7 +25,7 @@ os.chdir("../")
 
 # a = Archive.getRepertoire()["repertoire"][8]["choreo"]
 # print (bcolors.OKMSG + a + bcolors.ENDC)
-reproduce(['i', 'l', 'k', 'a', 'd', 'b', 'l', 'f', 'h', 'd', 'i', 'a', 'b', 'e', 'f', 'c'])
+reproduce("abebmlfiabbcadke")
 # reproduce(['f', 'k', 'i', 'g', 'm', 'h', 'l', 'j'])
 
 # reproduce(['m', 'k', 'j', 'g', 'l', 'h', 'f', 'i'])
