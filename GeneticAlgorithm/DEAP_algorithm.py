@@ -63,8 +63,8 @@ def create_choreography(parameters):
     g = 0
     print(bcolors.BLUE + "initialization" + bcolors.ENDC)
     generations = []
-    # for g in range(parameters.number_of_generations):
-    while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
+    for g in range(parameters.number_of_generations):
+    # while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
         # A new generation
         g = g + 1
         print "generation", g
