@@ -61,10 +61,11 @@ def create_choreography(parameters):
 
     # Begin the evolution
     g = 0
-    print(bcolors.BLUE + "initialization" + bcolors.ENDC)
+    # print(bcolors.BLUE + "initialization" + bcolors.ENDC)
+    print "initialisation"
     generations = []
-    for g in range(parameters.number_of_generations):
-    # while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
+    # for g in range(parameters.number_of_generations):
+    while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
         # A new generation
         g = g + 1
         print "generation", g
@@ -76,9 +77,11 @@ def create_choreography(parameters):
             elif count_individuals <= Constants.t_min and fitness_function == calculate_novelty:
                 fitness_function = calculate_fitnesses
         if fitness_function == calculate_novelty:
+            # print "novelty"
             print bcolors.OKMSG + "novelty" + bcolors.ENDC
             generations.append("novelty")
         else:
+            # print "fitness"
             print bcolors.ERRMSG + "fitness" + bcolors.ENDC
             generations.append("fitness")
 

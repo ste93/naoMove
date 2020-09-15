@@ -27,7 +27,7 @@ repertoire_paths = [
 
 # results_path = "json/archive/results"
 # random_path = "json/archive/random"
-list_of_moves_path = "json/archive/list_of_moves"
+# list_of_moves_path = "json/archive/list_of_moves"
 
 # MUTPB is the probability for mutating an individual
 MUTPB = 0.35
@@ -53,7 +53,14 @@ list_of_moves = {
     "q": "json/finiti/sadright",
     "r": "json/finiti/openarmsextended",
     "s": "json/finiti/armsinit",
-    # "t": "json/finiti/swordrightleftrequestwithlegs"
+    "t": "json/finiti/armsuppraying",
+    "u": "json/finiti/shieldleft",
+    "v": "json/finiti/shieldright",
+    "w": "right",
+    "x": "left",
+    "y": "backward",
+    "z": "forward"
+
 }
               # "json/finiti/armsdown",
               # "json/finiti/armsforward",
@@ -67,7 +74,3 @@ list_of_moves = {
               # "json/finiti/swordright",
               # "json/finiti/sadright"}
 
-
-movesdict = {}
-
-list_of_keys = []

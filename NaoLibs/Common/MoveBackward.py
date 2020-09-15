@@ -1,3 +1,4 @@
+import math
 import sys
 
 import motion
@@ -5,6 +6,9 @@ from naoqi import ALProxy
 from naoqi import ALModule
 import almath
 from common import constants
+import config
+import time
+import qi
 
 
 
@@ -20,7 +24,7 @@ def StiffnessOn(proxy):
     proxy.stiffnessInterpolation(pNames, pStiffnessLists, pTimeLists)
 
 
-def sendrobot(anglelist,t):
+def move_backward(t):
     robotIP = constants.robotIP
     # robotIP = "127.0.0.1"
     PORT = constants.PORT
@@ -53,27 +57,14 @@ def sendrobot(anglelist,t):
         names = []
         angleLists = []
         timeLists = []
-        for name in anglelist["angles"]:
-            names.append(str(name))
-            angleLists.append(float(anglelist["angles"][name])*almath.TO_RAD)
-            timeLists.append(4.0)
         StiffnessOn(motionProxy)
         if (t == 0): # if it is the first time the robot is called upon
             motionProxy.setStiffnesses("Body", 0.0) # unstiffens the joints
             motionProxy.wbEnable(True)
-
             postureProxy.goToPosture("Stand", 10) # gets the robot into his initial standing position
             print("init")
             t = t+1
-            chainName = "Torso"
-            frame = motion.FRAME_ROBOT
-            position = [0.0, 0.05, 0.3, 0.1, 0.0, 0.0]  # Absolute Position
-            fractionMaxSpeed = 0.05
-            axisMask = 63
-            motionProxy.setPositions(chainName, frame, position, fractionMaxSpeed, axisMask)
 
-        isAbsolute = True # kindoff is deprecated, but makes the joint positions absolute and not relative
-        # print anglelist["supportLeg"]
         motionProxy.wbEnable(True)
         # motionProxy.wbFootState("Plane", str(anglelist["supportLeg"]))
         # isEnable = True
@@ -87,27 +78,37 @@ def sendrobot(anglelist,t):
         # timeList = [0.6, 1.2]
         # clearExisting = False
         # motionProxy.setFootSteps(legName, footSteps, timeList, clearExisting)
+        # legName = ["LLeg", "RLeg"]
+        # X = 0.2
+        # Y = 0.1
+        # Theta = 0.0
+        # footSteps = [[X, Y, Theta], [X, -Y, Theta]]
+        # timeList = [0.9, 1.8]
+        # clearExisting = False
+        # motionProxy.setFootSteps(legName, footSteps, timeList, clearExisting)
+        # parameters = [["Frequency", 1], ["StepHeight", 0.02], ["MaxStepTheta", math.pi/16]]
+        leftArmEnable = False
+        rightArmEnable= False
+        motionProxy.setMoveArmsEnabled(leftArmEnable, rightArmEnable)
+        motionProxy.move(-0.11, 0, 0)
+        time.sleep(4)
+        motionProxy.stopMove()
 
-        # X = 0.8
+        # X = 1
         # Y = 0.0
         # Theta = 0.0
         # Frequency = 0.0  # max speed
         # motionProxy.setWalkTargetVelocity(X, Y, Theta, Frequency)
-        leftArmEnable = False
-        rightArmEnable= False
-        motionProxy.setMoveArmsEnabled(leftArmEnable, rightArmEnable)
-        # motionProxy.move(0.17, 0, 0)
-        motionProxy.angleInterpolation(names, angleLists, timeLists, True) #the function talks with the robot
-        # motionProxy.setCollisionProtectionEnabled("Arms", True)
-        # motionProxy.stopMove()
 
+        # motionProxy.angleInterpolation(names, angleLists, timeLists, True) #the function talks with the robot
+        motionProxy.setCollisionProtectionEnabled("Arms", True)
         # ankle_position = motionProxy.getPosition("RAnklePitch", motion.FRAME_TORSO, True)
         # z0 = trigo.distanceBetween2Points3D(com_position[0], com_position[1], com_position[2],
         #                                     ankle_position[0], ankle_position[1], ankle_position[2])
         # print z0
         # t += 1 # global t gets added by 1 so the joints dont get unstiffened again and the robot does not get put in its initial position
     except Exception as e: # checks for any and all errors
-        print "error in here " , e
+        print "error here " , e
          # ignores every single one of them, except keyboardInterupt and SystemExit
     except (KeyboardInterrupt, SystemExit): # when the program gets terminated
         print("error program terminated")

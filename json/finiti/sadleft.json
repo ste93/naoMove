@@ -11,9 +11,9 @@
     "RElbowRoll": 37.7,
     "RElbowYaw": 7.4,
     "RWristYaw": 59.1,
-    "RHand": 1
+    "RHand": 1,
 
-
-
+    "HeadPitch": 20,
+    "HeadYaw": -30.0
 }
 }

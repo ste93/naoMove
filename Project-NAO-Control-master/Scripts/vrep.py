@@ -40,13 +40,14 @@ try:
         libsimx = CDLL("./remoteApi.dylib")
     else:
         libsimx = CDLL("./remoteApi.so")
-except:
+except Exception as e:
     print ('----------------------------------------------------')
     print ('The remoteApi library could not be loaded. Make sure')
     print ('it is located in the same folder as "vrep.py", or')
     print ('appropriately adjust the file "vrep.py"')
     print ('----------------------------------------------------')
     print ('')
+    print e
 
 #ctypes wrapper prototypes 
 c_GetJointPosition          = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_float), c_int32)(("simxGetJointPosition", libsimx))

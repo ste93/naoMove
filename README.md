@@ -1,4 +1,13 @@
 # naoMove
+Required packages:
+- matplotlib
+- deap
+- numpy
+- pyjarowinkler
+- distance
+- bcolors
+
+made on python 2.7
 
 The project is derived from project Sandro https://github.com/PinsonJonas/Project-2-sandro and allows the user to move the nao with some json files
 The Json structure of each file is: 
