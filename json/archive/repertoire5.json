@@ -1,24 +1,29 @@
 {
     "repertoire":[
-      {
-        "choreo": "abcdabefabcgbfea",
-        "category": "1"
+     {
+        "choreo": "azrtxwwgxyntzmay",
+        "category": "1",
+        "actor": "priest"
       },
       {
-        "choreo": "hibebajkldaebmda",
-        "category": "2"
+        "choreo": "anbzhiuayvbzubay",
+        "category": "2",
+        "actor": "warrior"
       },
       {
-        "choreo": "ldaebmdabldanoba",
-        "category": "1"
+        "choreo": "avnevbhzxbwwwzcr",
+        "category": "2",
+        "actor": "warrior"
       },
       {
-        "choreo": "alcibebaebcdaebk",
-        "category": "2"
+        "choreo": "azpxowwqxmnldylm",
+        "category": "1",
+        "actor": "priest"
       },
       {
-        "choreo": "bmiafbaebcdaebka",
-        "category": "2"
+        "choreo": "abcewhvxfnubzrha",
+        "category": "2",
+        "actor": "warrior"
       }
     ]
 }
