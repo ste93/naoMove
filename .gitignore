@@ -3,3 +3,4 @@ json/2/*
 archive/backup/*
 archive/prova*
 archive/old/*
+*.pyc

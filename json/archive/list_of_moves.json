@@ -17,5 +17,12 @@
     "p": "json/finiti/extremelysad",
     "q": "json/finiti/sadright",
     "r": "json/finiti/openarmsextended",
-    "s": "json/finiti/armsinit"
+    "s": "json/finiti/armsinit",
+    "t": "json/finiti/armsuppraying",
+    "u": "json/finiti/shieldleft",
+    "v": "json/finiti/shieldright",
+    "w": "right",
+    "x": "left",
+    "y": "backward",
+    "z": "forward"
 }

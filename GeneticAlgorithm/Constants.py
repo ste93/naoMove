@@ -1,7 +1,7 @@
 # the thresholds considered when need to add a choreography to the archive
 # the threshold considered to calculate feasible individuals
 # threshold_f_min = 0.3
-
+from JsonEditor import jsonEditor
 # min_number_of_moves = 5
 # max_number_of_moves = 16
 number_of_moves = 16
@@ -33,44 +33,35 @@ repertoire_paths = [
 MUTPB = 0.35
 
 
-list_of_moves = {
-    "a": "json/finiti/armsdown",
-    "b": "json/finiti/swordright",
-    "c": "json/finiti/swordrightleftrequest",
-    "d": "json/finiti/openarms",
-    "e": "json/finiti/rightopen",
-    "f": "json/finiti/rightup45",
-    "g": "json/finiti/extremelysadchest",
-    "h": "json/finiti/swordleft",
-    "i": "json/finiti/arms45",
-    "j": "json/finiti/rightsadchest",
-    "k": "json/finiti/requestright",
-    "l": "json/finiti/request",
-    "m": "json/finiti/offering",
-    "n": "json/finiti/armsforward",
-    "o": "json/finiti/sadleft",
-    "p": "json/finiti/extremelysad",
-    "q": "json/finiti/sadright",
-    "r": "json/finiti/openarmsextended",
-    "s": "json/finiti/armsinit",
-    "t": "json/finiti/armsuppraying",
-    "u": "json/finiti/shieldleft",
-    "v": "json/finiti/shieldright",
-    "w": "right",
-    "x": "left",
-    "y": "backward",
-    "z": "forward"
+list_of_moves = jsonEditor.readDict("./json/archive/list_of_moves")
 
-}
-              # "json/finiti/armsdown",
-              # "json/finiti/armsforward",
-              # "json/finiti/sadleft",
-              # "json/finiti/armsinit",
-              # "json/finiti/extremelysad",
-              # "json/finiti/openarms",
-              # "json/finiti/openarmsextended",
-              # "json/finiti/request",
-              # "json/finiti/swordleft",
-              # "json/finiti/swordright",
-              # "json/finiti/sadright"}
+# {
+#     "a": "json/finiti/armsdown",
+#     "b": "json/finiti/swordright",
+#     "c": "json/finiti/swordrightleftrequest",
+#     "d": "json/finiti/openarms",
+#     "e": "json/finiti/rightopen",
+#     "f": "json/finiti/rightup45",
+#     "g": "json/finiti/extremelysadchest",
+#     "h": "json/finiti/swordleft",
+#     "i": "json/finiti/arms45",
+#     "j": "json/finiti/rightsadchest",
+#     "k": "json/finiti/requestright",
+#     "l": "json/finiti/request",
+#     "m": "json/finiti/offering",
+#     "n": "json/finiti/armsforward",
+#     "o": "json/finiti/sadleft",
+#     "p": "json/finiti/extremelysad",
+#     "q": "json/finiti/sadright",
+#     "r": "json/finiti/openarmsextended",
+#     "s": "json/finiti/armsinit",
+#     "t": "json/finiti/armsuppraying",
+#     "u": "json/finiti/shieldleft",
+#     "v": "json/finiti/shieldright",
+#     "w": "right",
+#     "x": "left",
+#     "y": "backward",
+#     "z": "forward"
+#
+# }
 
