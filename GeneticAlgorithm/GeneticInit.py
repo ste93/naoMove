@@ -2,8 +2,8 @@ import os
 from datetime import datetime
 import time
 
-import Evaluation
-from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants, CalculateTypicality
+import GeneticAlgorithm.Evaluation
+from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants, CalculateTypicality, Evaluation
 from GeneticAlgorithm.FileManagement import FileManagement
 from GeneticAlgorithm.Parameters import Parameters
 
@@ -67,8 +67,7 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
 
         results_string = Evaluation.create_string_results(pop)
         repertoire_string = Evaluation.create_string_repertoire(FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"])
-        ncd = Evaluation.compute_ncd(results_string,repertoire_string)
-        print ncd
+        ncd = Evaluation.compute_ncd(results_string, repertoire_string)
 
         length = len(pop)
         mean = sum(fits) / length
@@ -119,7 +118,7 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
         FileManagement.saveResultsToPath({"time elapsed": time_elapsed,
                                    "statistics": statistics,
                                    "ncd": ncd,
-                                   "min_distance": CalculateTypicality.calculate_typicality(parameters.repertoire_path, pop),
+                                   "min_distance": GeneticAlgorithm.Evaluation.calculate_typicality(parameters.repertoire_path, pop),
                                    "archive" : FileManagement.getArchive()["archive"],
                                    "list_of_moves" : Constants.list_of_moves,
                                    "repertoire": FileManagement.getRepertoire(),

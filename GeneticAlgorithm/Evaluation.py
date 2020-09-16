@@ -1,5 +1,8 @@
 import bz2
 
+from GeneticAlgorithm.FileManagement import FileManagement
+from GeneticAlgorithm.StringOperations import string_similarity
+
 
 def compute_ncd(a, b):
          ca = float(len(bz2.compress(a)))
@@ -29,3 +32,13 @@ def create_string_results(vector):
     print result
     print "asdgwa"
     return result
+
+
+def calculate_typicality(repertoire_path, results):
+    values = []
+    for choreo in results:
+        sim_min = 1
+        for choreo_repertoire in FileManagement.getRepertoireWithPath(repertoire_path)["repertoire"]:
+            sim_min = min(sim_min, string_similarity("".join(choreo), "".join(choreo_repertoire["choreo"])))
+        values.append(sim_min)
+    return values
