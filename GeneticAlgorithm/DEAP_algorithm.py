@@ -6,6 +6,7 @@ from GeneticAlgorithm import OperationsWithLetters as Operations , Constants
 from GeneticAlgorithm.FileManagement import FileManagement
 from Mathematical.plot2d import plot2d
 
+
 def calculate_fitnesses(ind, pop, toolbox, parameters):
     try:
         return toolbox.evaluate(ind, parameters)

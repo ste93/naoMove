@@ -3,7 +3,7 @@ from datetime import datetime
 import time
 
 import GeneticAlgorithm
-from GeneticAlgorithm.Evaluation import Evaluation
+from GeneticAlgorithm.Evaluation.Evaluation import create_string_results, create_string_repertoire, compute_ncd, calculate_typicality_with_min_distance
 from GeneticAlgorithm import DEAP_algorithm as DEAP_algorithm, Constants, Evaluation
 from GeneticAlgorithm.FileManagement import FileManagement
 from GeneticAlgorithm.Parameters import Parameters
@@ -11,7 +11,6 @@ from GeneticAlgorithm.Parameters import Parameters
 
 # repertoire index is the index of the corresponding path in constants
 def init(number_of_generations, repertoireIndex, evaluation_method_index, random_seed, multi_objective_selection, dissim_threshold, fitness_threshold, timenow):
-    try:
         now = datetime.now()  # current date and time
         evaluation_method = "fitness"
         if evaluation_method_index == 1:
@@ -26,7 +25,7 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
                                 dissim_threshold=dissim_threshold,
                                 multi_objective_selection=multi_objective_selection,
                                 fitness_threshold=fitness_threshold)
-        full_name = "json/archive/risultati genetico/" + timenow + "/" \
+        full_name = "json/archive/risultati genetico/" + str(timenow) + "/" \
                     + str(Constants.number_of_moves)  + "_" \
                     + str(Constants.max_arch) + "_"\
                     + str(Constants.MUTPB) + "_"\
@@ -54,7 +53,6 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
                 os.makedirs(full_name)
             except Exception as e:
                 print e
-
         parameters.set_path(full_name)
         start_time = time.time()
         pop, generations = DEAP_algorithm.create_choreography(parameters)
@@ -64,11 +62,11 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
         # Gather all the fitnesses in one list and print the stats
         fits = [ind.fitness.values[0] for ind in pop]
         time_elapsed  =(time.time() - start_time)
-        print("--- %s seconds ---" % time_elapsed)
-
-        results_string = Evaluation.create_string_results(pop)
-        repertoire_string = Evaluation.create_string_repertoire(FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"])
-        ncd = Evaluation.compute_ncd(results_string, repertoire_string)
+        print("--- %s seconds ---" % str(time_elapsed))
+        results_string = create_string_results(pop)
+        repertoire_string = create_string_repertoire(
+                                        FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"])
+        ncd = compute_ncd(results_string, repertoire_string)
 
         length = len(pop)
         mean = sum(fits) / length
@@ -96,7 +94,7 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
         print("  Std %s" % std)
         results = []
         for ind in pop:
-            print "".join(ind), ind.fitness.values
+            # print "".join(ind), ind.fitness.values
             results.append({"ind": "".join(ind), "value": ind.fitness.values })
             with open(full_name + "results_serialized", "a") as myfile:
                 myfile.write("\n" + str("".join(ind)))
@@ -119,15 +117,12 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
         FileManagement.saveResultsToPath({"time elapsed": time_elapsed,
                                    "statistics": statistics,
                                    "ncd": ncd,
-                                   "min_distance": Evaluation.calculate_typicality_with_min_distance(parameters.repertoire_path, pop),
+                                   "min_distance": calculate_typicality_with_min_distance(parameters.repertoire_path, pop),
                                    "archive" : FileManagement.getArchive()["archive"],
                                    "list_of_moves" : Constants.list_of_moves,
-                                   "repertoire": FileManagement.getRepertoire(),
+                                   "repertoire": FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"],
                                    "parameters": parameters_to_serialize,
                                    "results": results,
                                    # "strings" : [results_string, repertoire_string]
                                    }, full_name + "results")
         print "end reached"
-
-    except Exception as e:
-        print "error in genetic init " + e

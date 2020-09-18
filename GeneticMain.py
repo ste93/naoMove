@@ -6,8 +6,6 @@ from GeneticAlgorithm.CalculateThreshold import calculate_fitness_threshold_max,
 
 if __name__ == "__main__":
     # execute only if run as a script
-
-    try:
         # for repertoire_index in [0, 1, 2, 3, 4]:
         #     for generations in [60, 100, 200, 500]:
         # for algorithm in ["nsga2", "spea2"]:
@@ -18,10 +16,10 @@ if __name__ == "__main__":
         #              multi_objective_selection=
         now = datetime.now()
         timenow = now.strftime("%Y%m%d-%H.%M")
-        for random_seed in [100]:
-            for generations in [100,200]:
-                for evaluation_method in [2]:
-                    for repertoireIndex in [0,1]:
+        for random_seed in [42]:
+            for generations in [1000,2000]:
+                for evaluation_method in [1,2]:
+                    for repertoireIndex in [0,1,2,3,4]:
                         init(number_of_generations=generations,  # generations,
                              repertoireIndex=repertoireIndex,  # repertoire_index,
                              evaluation_method_index=evaluation_method,
@@ -33,5 +31,3 @@ if __name__ == "__main__":
                         # winsound.Beep(500, 1000)
 
         winsound.Beep(1000, 4000)
-    except Exception as e:
-        print "exception asdf", e

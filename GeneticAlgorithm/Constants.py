@@ -26,7 +26,7 @@ repertoire_paths = [
 ]
 
 # results_path = "json/archive/results"
-# random_path = "json/archive/random"
+random_path = "json/archive/random"
 # list_of_moves_path = "json/archive/list_of_moves"
 
 # MUTPB is the probability for mutating an individual

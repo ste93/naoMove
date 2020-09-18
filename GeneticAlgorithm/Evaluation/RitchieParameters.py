@@ -5,10 +5,10 @@ def calculate_ratio(x, y):
     return len(x) / len(y)
 
 
-def calculate_AV(function, x):
+def calculate_AV_typ(x, repertoire):
     sum = 0
     for element in x:
-        sum = sum + function(element)
+        sum = sum + calculate_typicality(element, repertoire)
     return sum / len(x)
 
 
@@ -20,6 +20,15 @@ def calculate_typicality(results, repertoire):
 
 
 def criterion1(results, repertoire, theta):
-    typ = calculate_typicality(results=results,
-                               repertoire=repertoire)
-    return
+    typ = calculate_AV_typ(results, repertoire)
+    return typ > theta
+
+
+def criterion2(alfa, results, repertoire, theta):
+    n = 0
+    for element in results:
+        if calculate_typicality(element, repertoire) > alfa:
+            n = n + 1
+    return n / len(results) > theta
+
+
