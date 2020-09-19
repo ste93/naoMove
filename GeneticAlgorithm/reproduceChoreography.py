@@ -5,8 +5,9 @@ import bcolors
 
 from JsonEditor import jsonEditor
 from NaoLibs.Common import sendToRobot, Rotate, BendDown, MoveForward, MoveBackward
-import Constants
 from FileManagement import FileManagement
+
+
 
 
 def readAndMove(filename, t):
@@ -17,6 +18,7 @@ def readAndMove(filename, t):
 
 def reproduce(sequence):
     t = 0
+    list_of_moves = jsonEditor.readDict("./json/archive/list_of_moves")
     for pose in sequence:
         # print Constants.list_of_moves[x]
         if pose == "z":
@@ -28,14 +30,14 @@ def reproduce(sequence):
         elif pose == "w":
             Rotate.rotate_right(t)
         else:
-            readAndMove(Constants.list_of_moves[pose],t)
+            readAndMove(list_of_moves[pose],t)
         t = 1
 os.chdir("../")
 
 # a = Archive.getRepertoire()["repertoire"][8]["choreo"]
 # print (bcolors.OKMSG + a + bcolors.ENDC)
 # reproduce("abebmlfiabbcadke")
-reproduce("jvftbnrxnypvhzxa")
+reproduce("azrbewnvbyahzrcx")
 # reproduce(['f', 'k', 'i', 'g', 'm', 'h', 'l', 'j'])
 # aznwrytxmagxzwty
 # reproduce(['m', 'k', 'j', 'g', 'l', 'h', 'f', 'i'])

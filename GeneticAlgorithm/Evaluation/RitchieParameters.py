@@ -26,9 +26,12 @@ def criterion1(results, repertoire, theta):
 
 def criterion2(alfa, results, repertoire, theta):
     n = 0
+    r = 0
     for element in results:
-        if calculate_typicality(element, repertoire) > alfa:
-            n = n + 1
-    return n / len(results) > theta
+        if element != "":
+            r = r + 1
+            if calculate_typicality(element, repertoire) > alfa:
+                n = n + 1
+    return n / r > theta #results always have a blank line so
 
 
