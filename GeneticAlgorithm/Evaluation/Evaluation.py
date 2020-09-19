@@ -19,12 +19,32 @@ def create_string_repertoire(vector):
     return result
 
 
+def concatenate_items_to_string(vector):
+    result = ""
+    for x in vector:
+        print x
+        result = result + "".join(x)
+    return result
+
+
 def create_string_results(vector):
     result = ""
     for x in vector:
         print x
         result = result + "".join(x)
     return result
+
+
+def calculate_typicality_with_min_distance_from_files(repertoire, results):
+    values = []
+    for choreo in results:
+        sim_min = 1
+        if choreo != "":
+            for choreo_repertoire in repertoire:
+                if choreo_repertoire != "":
+                    sim_min = min(sim_min, string_similarity("".join(choreo), "".join(choreo_repertoire)))
+            values.append(sim_min)
+    return values
 
 
 def calculate_typicality_with_min_distance(repertoire_path, results):
