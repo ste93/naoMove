@@ -6,7 +6,6 @@ from naoqi import ALProxy
 from naoqi import ALModule
 import almath
 from common import constants
-import config
 import time
 import qi
 

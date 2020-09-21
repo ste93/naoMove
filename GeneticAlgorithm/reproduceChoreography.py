@@ -1,13 +1,11 @@
+import json
 import os
+import sys
 import winsound
 
-import bcolors
 
 from JsonEditor import jsonEditor
-from NaoLibs.Common import sendToRobot, Rotate, BendDown, MoveForward, MoveBackward
-from FileManagement import FileManagement
-
-
+from NaoLibs.Common import sendToRobot, MoveForward, MoveBackward, Rotate
 
 
 def readAndMove(filename, t):
@@ -18,7 +16,8 @@ def readAndMove(filename, t):
 
 def reproduce(sequence):
     t = 0
-    list_of_moves = jsonEditor.readDict("./json/archive/list_of_moves")
+    list_of_moves = jsonEditor.readDict_reproduce("./json/archive/list_of_moves")
+    print list_of_moves
     for pose in sequence:
         # print Constants.list_of_moves[x]
         if pose == "z":
@@ -32,12 +31,13 @@ def reproduce(sequence):
         else:
             readAndMove(list_of_moves[pose],t)
         t = 1
-os.chdir("../")
 
+
+os.chdir("../")
 # a = Archive.getRepertoire()["repertoire"][8]["choreo"]
 # print (bcolors.OKMSG + a + bcolors.ENDC)
 # reproduce("abebmlfiabbcadke")
-reproduce("azrbewnvbyahzrcx")
+reproduce("abcewhvxfnubzrha")
 # reproduce(['f', 'k', 'i', 'g', 'm', 'h', 'l', 'j'])
 # aznwrytxmagxzwty
 # reproduce(['m', 'k', 'j', 'g', 'l', 'h', 'f', 'i'])
