@@ -3,7 +3,6 @@ import bz2
 from GeneticAlgorithm.FileManagement import FileManagement
 from GeneticAlgorithm.StringOperations import string_similarity
 
-
 def compute_ncd(a, b):
          ca = float(len(bz2.compress(a)))
          cb = float(len(bz2.compress(b)))
@@ -14,7 +13,7 @@ def compute_ncd(a, b):
 def create_string_repertoire(vector):
     result = ""
     for x in vector:
-        print x["choreo"]
+        # print x["choreo"]
         result = result + "".join(x["choreo"])
     return result
 
@@ -22,7 +21,7 @@ def create_string_repertoire(vector):
 def concatenate_items_to_string(vector):
     result = ""
     for x in vector:
-        print x
+        # print x
         result = result + "".join(x)
     return result
 
@@ -30,7 +29,7 @@ def concatenate_items_to_string(vector):
 def create_string_results(vector):
     result = ""
     for x in vector:
-        print x
+        # print x
         result = result + "".join(x)
     return result
 
