@@ -1,4 +1,5 @@
 from GeneticAlgorithm.Evaluation import Evaluation
+from GeneticAlgorithm.Evaluation.Evaluation import compute_ncd
 
 
 def calculate_ratio(x, y):
@@ -19,19 +20,25 @@ def calculate_typicality(results, repertoire):
     return ncd
 
 
-def criterion1(results, repertoire, theta):
-    typ = calculate_AV_typ(results, repertoire)
-    return typ > theta
-
-
-def criterion2(alfa, results, repertoire, theta):
+def compute_criterion_1(results, string_repertoire):
     n = 0
-    r = 0
-    for element in results:
-        if element != "":
-            r = r + 1
-            if calculate_typicality(element, repertoire) > alfa:
-                n = n + 1
-    return n / r > theta #results always have a blank line so
+    avg_eval = 0
+    for x in results:
+        if x != "":  # avoid empty strings
+            res = compute_ncd("".join(x), string_repertoire)
+            avg_eval = avg_eval + res
+            n = n + 1
+    return avg_eval / n
 
+
+def compute_criterion_2(results, string_repertoire, alpha):
+    n = 0
+    count = 0
+    for x in results:
+        if x != "":  # avoid empty strings
+            res = compute_ncd("".join(x), string_repertoire)
+            if res > alpha:
+                count = count + 1
+            n = n + 1
+    return count / n
 

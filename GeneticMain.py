@@ -16,10 +16,12 @@ if __name__ == "__main__":
         #              multi_objective_selection=
         now = datetime.now()
         timenow = now.strftime("%Y%m%d-%H.%M")
-        for random_seed in [100, 330, 42]:
-            for generations in [1000,2000]:
+        for random_seed in [100]:
+        # for random_seed in [100, 330, 42]:
+            for generations in [2000]:
+            # for generations in [1000,2000]:
                 for evaluation_method in [0]:
-                    for repertoireIndex in [0,1,2,3,4]:
+                    for repertoireIndex in [0,1,2,3,4,5]:
                         init(number_of_generations=generations,  # generations,
                              repertoireIndex=repertoireIndex,  # repertoire_index,
                              evaluation_method_index=evaluation_method,

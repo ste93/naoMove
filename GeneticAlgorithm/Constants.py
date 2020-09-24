@@ -18,11 +18,13 @@ population_size = 100
 
 archive_path = "json/archive/archive"
 repertoire_paths = [
-    "json/archive/repertoire",
+
     "json/archive/repertoire1",
+    "json/archive/repertoire2",
     "json/archive/repertoire3",
     "json/archive/repertoire4",
-    "json/archive/repertoire5"
+    "json/archive/repertoire5",
+    "json/archive/repertoire6"
 ]
 
 # results_path = "json/archive/results"

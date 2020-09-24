@@ -3,8 +3,11 @@ import random
 import bcolors
 from deap import base, creator, tools
 from GeneticAlgorithm import OperationsWithLetters as Operations , Constants
+from GeneticAlgorithm.Evaluation.Evaluation import compute_ncd
+from GeneticAlgorithm.Evaluation.RitchieParameters import compute_criterion_1,compute_criterion_2
 from GeneticAlgorithm.FileManagement import FileManagement
-from Mathematical.plot2d import plot2d
+from JsonEditor import jsonEditor
+from Mathematical.plot2d import plot2d_fit_nov, plot2d
 
 
 def calculate_fitnesses(ind, pop, toolbox, parameters):
@@ -55,18 +58,26 @@ def create_choreography(parameters):
     toolbox.register("selectTournament", tools.selTournament, k=Constants.population_size / 10, tournsize = 5)
     # begins the counter of individuals with fitness over threshold over to 0
     count_individuals = 0
+    repertoire_string = ""
+    for x in FileManagement.getRepertoireWithPath(parameters.repertoire_path)["repertoire"]:
+        repertoire_string = repertoire_string + "".join(x["choreo"])
+    print repertoire_string
 
+    full_ncd_results = {}
+    criterion_1 = {}
+    criterion_2 = {}
     # create the population
     pop = toolbox.population(n=Constants.population_size)
     print "population done"
+
 
     # Begin the evolution
     g = 0
     # print(bcolors.BLUE + "initialization" + bcolors.ENDC)
     print "initialisation"
     generations = []
-    for g in range(parameters.number_of_generations):
-    # while g < parameters.number_of_generations or fitness_function == calculate_fitnesses:
+    # for g in range(parameters.number_of_generations):
+    while g < parameters.number_of_generations or (fitness_function == calculate_fitnesses and not parameters.evaluation_method_index == 0):
         # A new generation
         g = g + 1
         print "generation", g
@@ -109,6 +120,14 @@ def create_choreography(parameters):
                 parents = toolbox.selectnsga2(pop)
         else:
             parents = toolbox.selectTournament(pop)
+
+
+        results_full = ""
+        for x in parents:
+            results_full = results_full + "".join(x)
+        full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
+        criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, parents)), repertoire_string)
+        criterion_2[g] = compute_criterion_2(list(map(toolbox.clone, parents)), repertoire_string, 0.5)
 
         # Clone the selected individuals
         offspring = list(map(toolbox.clone, parents))
@@ -158,5 +177,17 @@ def create_choreography(parameters):
             final = toolbox.selectnsga2(pop)
     else:
         final = toolbox.selectTournament(pop)
-    plot2d(pop,final, parameters.full_name)
+    results_full = ""
+    for x in final:
+        results_full = results_full + "".join(x)
+    full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
+    criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, final)), repertoire_string)
+    criterion_2[g] = compute_criterion_2(list(map(toolbox.clone, final)), repertoire_string, 0.5)
+    plot2d(data=full_ncd_results, x_label="generation", y_label="ncd_full", path=parameters.full_name + "ncd_full")
+    plot2d(data=criterion_1, x_label="generation", y_label="criterion_1", path=parameters.full_name + "criterion_1")
+    plot2d(data=criterion_2, x_label="generation", y_label="criterion_2", path=parameters.full_name + "criterion_2")
+    jsonEditor.dumpDict(filename=parameters.full_name + "ncd_full", dict=full_ncd_results)
+    jsonEditor.dumpDict(filename=parameters.full_name + "criterion_1", dict=criterion_1)
+    jsonEditor.dumpDict(filename=parameters.full_name + "criterion_2", dict=criterion_2)
+    plot2d_fit_nov(pop,final, parameters.full_name)
     return final, generations

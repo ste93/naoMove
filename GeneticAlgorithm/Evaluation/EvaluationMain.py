@@ -61,6 +61,13 @@ for path, subdirs, files in os.walk(root):
             jsonEditor.dumpDict(os.path.join(path, "evaluation_new"), eval)
             # here I have all the directories with results
 
-df = DataFrame({'aapath': index1, "aapath2": index2,"ncd_full": ncd_full, 'average_typicality with ncd (crit 1)': avg_typ, 'average min_typicality' : min_typ, 'criterion 2 with ncd' : crit_2, "single_results average ncd": single_res_avg})
+df = DataFrame({'aapath': index1,
+                "aapath2": index2,
+                "ncd_full": ncd_full,
+                'average_typicality with ncd (crit 1)': avg_typ,
+                'average min_typicality' : min_typ,
+                'criterion 2 with ncd' : crit_2
+                # "single_results average ncd": single_res_avg
+                })
 
 df.to_excel('../../json/archive/evaluation.xlsx', sheet_name='sheet1', index=False)
