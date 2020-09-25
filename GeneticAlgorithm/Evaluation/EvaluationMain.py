@@ -7,7 +7,7 @@ from JsonEditor import jsonEditor
 
 alpha = 0.5
 
-root = "../../json/archive/risultati genetico/full"
+root = "../../json/archive/risultati genetico/300"
 ncd_full = []
 avg_typ = []
 min_typ = []
@@ -70,4 +70,4 @@ df = DataFrame({'aapath': index1,
                 # "single_results average ncd": single_res_avg
                 })
 
-df.to_excel('../../json/archive/evaluation.xlsx', sheet_name='sheet1', index=False)
+df.to_excel("../../json/archive/risultati genetico/evaluation300.xlsx", sheet_name='sheet1', index=False)

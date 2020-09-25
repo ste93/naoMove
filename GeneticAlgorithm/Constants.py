@@ -6,9 +6,9 @@ from JsonEditor import jsonEditor
 # max_number_of_moves = 16
 number_of_moves = 16
 # parameter used to switch to fitness
-t_min = 40
+t_min = 65
 # parameter used to switch to hybrid
-t_max = 70
+t_max = 80
 # max number of archive entries considered
 max_arch = 5
 

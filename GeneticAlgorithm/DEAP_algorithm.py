@@ -7,7 +7,7 @@ from GeneticAlgorithm.Evaluation.Evaluation import compute_ncd
 from GeneticAlgorithm.Evaluation.RitchieParameters import compute_criterion_1,compute_criterion_2
 from GeneticAlgorithm.FileManagement import FileManagement
 from JsonEditor import jsonEditor
-from Mathematical.plot2d import plot2d_fit_nov, plot2d
+from Mathematical.plot2d import plot2d_fit_nov, plot2d, plot2d_2_series
 
 
 def calculate_fitnesses(ind, pop, toolbox, parameters):
@@ -66,6 +66,9 @@ def create_choreography(parameters):
     full_ncd_results = {}
     criterion_1 = {}
     criterion_2 = {}
+    fitnesses_avg = {}
+    novelty_avg = {}
+
     # create the population
     pop = toolbox.population(n=Constants.population_size)
     print "population done"
@@ -123,8 +126,19 @@ def create_choreography(parameters):
 
 
         results_full = ""
+        avg_nov_local = 0
+        avg_fit_local = 0
         for x in parents:
             results_full = results_full + "".join(x)
+            if fitness_function == calculate_novelty:
+                avg_nov_local = avg_nov_local + x.fitness.values[1]
+            avg_fit_local = avg_fit_local + x.fitness.values[0]
+        avg_fit_local = avg_fit_local / 10
+        avg_nov_local = avg_nov_local / 10
+        if fitness_function == calculate_novelty:
+            novelty_avg[g] = avg_nov_local
+        fitnesses_avg[g] = avg_fit_local
+
         full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
         criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, parents)), repertoire_string)
         criterion_2[g] = compute_criterion_2(list(map(toolbox.clone, parents)), repertoire_string, 0.5)
@@ -178,8 +192,23 @@ def create_choreography(parameters):
     else:
         final = toolbox.selectTournament(pop)
     results_full = ""
+
+    avg_nov_local = 0
+    avg_fit_local = 0
     for x in final:
         results_full = results_full + "".join(x)
+        if fitness_function == calculate_novelty:
+            avg_nov_local = avg_nov_local + x.fitness.values[1]
+        avg_fit_local = avg_fit_local + x.fitness.values[0]
+    avg_fit_local = avg_fit_local / 10
+    avg_nov_local = avg_nov_local / 10
+    if fitness_function == calculate_novelty:
+        novelty_avg[g] = avg_nov_local
+    fitnesses_avg[g] = avg_fit_local
+    if fitness_function == calculate_novelty:
+        plot2d(data=fitnesses_avg, x_label="generation", y_label="fitness", path=parameters.full_name + "values")
+    plot2d_2_series(data=fitnesses_avg,data2 = novelty_avg,  x_label="generation", y_label="fitness and novelty", path=parameters.full_name + "values")
+
     full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
     criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, final)), repertoire_string)
     criterion_2[g] = compute_criterion_2(list(map(toolbox.clone, final)), repertoire_string, 0.5)
@@ -189,5 +218,6 @@ def create_choreography(parameters):
     jsonEditor.dumpDict(filename=parameters.full_name + "ncd_full", dict=full_ncd_results)
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_1", dict=criterion_1)
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_2", dict=criterion_2)
+    jsonEditor.dumpDict(filename=parameters.full_name + "values", dict={"fitness": fitnesses_avg, "novelty": novelty_avg})
     plot2d_fit_nov(pop,final, parameters.full_name)
     return final, generations
