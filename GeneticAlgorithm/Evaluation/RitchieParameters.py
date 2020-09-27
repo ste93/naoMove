@@ -40,5 +40,16 @@ def compute_criterion_2(results, string_repertoire, alpha):
             if res > alpha:
                 count = count + 1
             n = n + 1
-    return count / n
+    return count * 1.0 / n
 
+
+def compute_criterion_2_edited(results, string_repertoire, higher_bound,lower_bound):
+    n = 0
+    count = 0
+    for x in results:
+        if x != "":  # avoid empty strings
+            res = compute_ncd("".join(x), string_repertoire)
+            if res > higher_bound or res < lower_bound:
+                count = count + 1
+            n = n + 1
+    return count * 1.0 / n

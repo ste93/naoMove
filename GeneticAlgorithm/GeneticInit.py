@@ -33,7 +33,8 @@ def init(number_of_generations, repertoireIndex, evaluation_method_index, random
                     + str(Constants.t_max) + "_"\
                     + str(Constants.max_number_of_mutations) + "_"\
                     + str(Constants.population_size) + "_"\
-                    + str(repertoireIndex) + "_"\
+                    + str(repertoireIndex
+                          ) + "_"\
                     + str(number_of_generations) + "_"\
                     + str(random_seed) + "_"\
                     + str(parameters.fitness_threshold)+ "_"\

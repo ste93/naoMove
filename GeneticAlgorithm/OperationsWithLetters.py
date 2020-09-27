@@ -36,6 +36,7 @@ def fitness(movesList, parameters):
         # element and the choreographies in the archive is higher than a threshold
         if arch_len == 0 or dissim(movesList) > parameters.dissim_threshold:
             FileManagement.addToArchive("".join(movesList))
+            FileManagement.saveres(res={"choreo": "".join(movesList), "fitness": evaluation, "dissim": dissim(movesList)}, path=parameters.full_name + "res_arch")
     return evaluation
 
 

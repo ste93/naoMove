@@ -153,7 +153,7 @@ def create_choreography(parameters):
         i = 0
         for child1 in offspring:
             for child2 in offspring:
-                if i < Constants.population_size * 9 / 10 and "".join(child1) != "".join(child2):
+                if i < Constants.population_size * 9 / 10:
                     child1_copy = toolbox.clone(child1)
                     child2_copy = toolbox.clone(child2)
                     a,b = toolbox.mate(child1_copy, child2_copy)
@@ -206,8 +206,9 @@ def create_choreography(parameters):
         novelty_avg[g] = avg_nov_local
     fitnesses_avg[g] = avg_fit_local
     if fitness_function == calculate_novelty:
+        plot2d_2_series(data=fitnesses_avg,data2 = novelty_avg,  x_label="generation", y_label="fitness and novelty", path=parameters.full_name + "values")
+    else:
         plot2d(data=fitnesses_avg, x_label="generation", y_label="fitness", path=parameters.full_name + "values")
-    plot2d_2_series(data=fitnesses_avg,data2 = novelty_avg,  x_label="generation", y_label="fitness and novelty", path=parameters.full_name + "values")
 
     full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
     criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, final)), repertoire_string)
@@ -219,5 +220,5 @@ def create_choreography(parameters):
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_1", dict=criterion_1)
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_2", dict=criterion_2)
     jsonEditor.dumpDict(filename=parameters.full_name + "values", dict={"fitness": fitnesses_avg, "novelty": novelty_avg})
-    plot2d_fit_nov(pop,final, parameters.full_name)
+    # plot2d_fit_nov(pop,final, parameters.full_name)
     return final, generations

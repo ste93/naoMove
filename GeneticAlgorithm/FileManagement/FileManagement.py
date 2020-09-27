@@ -14,6 +14,25 @@ def saveArchive(archive):
     jsonEditor.dumpDict(GeneticAlgorithm.Constants.archive_path, archive)
 
 
+def getres(path):
+    try:
+        dict = jsonEditor.readDict(path)
+        return dict
+    except Exception, e:
+        print "error", Exception, e
+
+
+def saveres(res, path):
+    jsonEditor.dumpDict(path, res)
+
+
+def addres(choreography, path):
+    # print "adding to archive"
+    res = getres(path)
+    res.append(choreography)
+    saveres(choreography, path)
+
+
 def addToArchive(choreography):
     # print "adding to archive"
     archive = getArchive()
