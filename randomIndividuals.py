@@ -12,7 +12,7 @@ def init_individual():
             moves_list.append(move)
     return moves_list
 
-
-for x in range(100):
-    with open(Constants.random_path, "a") as myfile:
-        myfile.write("\n"  + str("".join(init_individual())))
+#
+# for x in range(100):
+#     with open(Constants.random_path, "a") as myfile:
+#         myfile.write("\n"  + str("".join(init_individual())))

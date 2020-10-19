@@ -4,11 +4,32 @@ import matplotlib.pyplot as plt
 from JsonEditor import jsonEditor
 
 
+def plot_2d_boxplot(data):
+
+    fig1, ax1 = plt.subplots()
+    ax1.set_title('Basic Plot')
+    ax1.boxplot(data)
+
+
+def plot2d_data_to_axes(ax, data, size=1, alpha=0.6, color="red", interp_points=200):
+    x = [int(k) for k in data.keys()]
+    x.sort()
+    y = [data[str(i)] for i in x]
+
+    if (interp_points > 0):
+        x_new = np.linspace(x[0], x[-1], interp_points)
+        y_smooth = np.interp(x_new, x, y)
+        x = x_new
+        y = y_smooth
+
+    ax.plot(x, y, linewidth=size, color=color)
+
+
 def plot2d_2_series_from_path(path):
     data_read = jsonEditor.readDict(path + "values")
     data  = data_read["fitness"]
     data2 = data_read["novelty"]
-    if (len(data2.keys()) == 0):
+    if len(data2.keys()) == 0:
         plot2d_2_series(data, data2, path + "values_graph", "generations", "fitness")
     else:
         plot2d_2_series(data, data2, path + "values_graph", "generations", "fitness and novelty")
