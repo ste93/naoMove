@@ -27,43 +27,40 @@ repertoire_paths = [
     "json/archive/repertoire6"
 ]
 
-# results_path = "json/archive/results"
 random_path = "json/archive/random"
-# list_of_moves_path = "json/archive/list_of_moves"
 
 # MUTPB is the probability for mutating an individual
 MUTPB = 0.35
 
 
-list_of_moves = jsonEditor.readDict("./json/archive/list_of_moves")
+# list_of_moves = jsonEditor.readDict("./json/archive/list_of_moves")
+list_of_moves = {
+    "a": "json/finiti/armsdown",
+    "b": "json/finiti/swordright",
+    "c": "json/finiti/swordrightleftrequest",
+    "d": "json/finiti/openarms",
+    "e": "json/finiti/rightopen",
+    "f": "json/finiti/rightup45",
+    "g": "json/finiti/extremelysadchest",
+    "h": "json/finiti/swordleft",
+    "i": "json/finiti/arms45",
+    "j": "json/finiti/rightsadchest",
+    "k": "json/finiti/requestright",
+    "l": "json/finiti/request",
+    "m": "json/finiti/offering",
+    "n": "json/finiti/armsforward",
+    "o": "json/finiti/sadleft",
+    "p": "json/finiti/extremelysad",
+    "q": "json/finiti/sadright",
+    "r": "json/finiti/openarmsextended",
+    "s": "json/finiti/armsinit",
+    "t": "json/finiti/armsuppraying",
+    "u": "json/finiti/shieldleft",
+    "v": "json/finiti/shieldright",
+    "w": "right",
+    "x": "left",
+    "y": "backward",
+    "z": "forward"
 
-# {
-#     "a": "json/finiti/armsdown",
-#     "b": "json/finiti/swordright",
-#     "c": "json/finiti/swordrightleftrequest",
-#     "d": "json/finiti/openarms",
-#     "e": "json/finiti/rightopen",
-#     "f": "json/finiti/rightup45",
-#     "g": "json/finiti/extremelysadchest",
-#     "h": "json/finiti/swordleft",
-#     "i": "json/finiti/arms45",
-#     "j": "json/finiti/rightsadchest",
-#     "k": "json/finiti/requestright",
-#     "l": "json/finiti/request",
-#     "m": "json/finiti/offering",
-#     "n": "json/finiti/armsforward",
-#     "o": "json/finiti/sadleft",
-#     "p": "json/finiti/extremelysad",
-#     "q": "json/finiti/sadright",
-#     "r": "json/finiti/openarmsextended",
-#     "s": "json/finiti/armsinit",
-#     "t": "json/finiti/armsuppraying",
-#     "u": "json/finiti/shieldleft",
-#     "v": "json/finiti/shieldright",
-#     "w": "right",
-#     "x": "left",
-#     "y": "backward",
-#     "z": "forward"
-#
-# }
+}
 
