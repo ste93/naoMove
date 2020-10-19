@@ -4,4 +4,3 @@ archive/backup/*
 archive/prova*
 archive/old/*
 *.pyc
-*.idea
