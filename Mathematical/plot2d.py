@@ -25,12 +25,9 @@ def plot2d_2_series_from_path(path):
 def plot2d_2_series(data, data2, path, x_label, y_label):
     ax = plt.axes()
     ax.set_ylim(0,1)
-    for i in data.keys():
-        ax.plot([i], [data[i]],  marker='o', markersize=2, alpha=0.6,
-            color="red")
-    for i in data2.keys():
-        ax.plot([i], [data2[i]],  marker='o', markersize=2, alpha=0.6,
-            color="blue")
+
+    plot2d_data_to_axes(ax, data, color="red")
+    plot2d_data_to_axes(ax, data2, color="blue")
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
@@ -38,6 +35,42 @@ def plot2d_2_series(data, data2, path, x_label, y_label):
     plt.clf()
     plt.close()
 
+def plot2d(data, path, x_label, y_label):
+    ax = plt.axes()
+    ax.set_ylim(0,1)
+
+    plot2d_data_to_axes(ax, data, color="red")
+
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    plt.savefig(path)
+    plt.clf()
+    plt.close()
+
+def plot2d_no_lim(data, path, x_label, y_label):
+    ax = plt.axes()
+    for i in data.keys():
+        ax.plot([i], [data[i]],  marker='o', markersize=2, alpha=0.6,
+                color="red")
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    plt.savefig(path)
+    plt.clf()
+    plt.close()
+
+
+def plot2d_data_to_axes(ax, data, size=1, alpha=0.6, color="red", interp_points=200):
+    x = [int(k) for k in data.keys()]
+    x.sort()
+    y = [data[i] for i in x]
+
+    if (interp_points > 0):
+        x_new = np.linspace(x[0], x[-1], interp_points)
+        y_smooth = np.interp(x_new, x, y)
+        x = x_new
+        y = y_smooth
+
+    ax.plot(x, y, linewidth=size, color=color)
 
 def plot2d(data, path, x_label, y_label):
     ax = plt.axes()

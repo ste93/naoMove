@@ -1,4 +1,3 @@
-import winsound
 from datetime import datetime
 from GeneticAlgorithm import Constants
 from GeneticAlgorithm.GeneticInit import init
@@ -16,12 +15,12 @@ if __name__ == "__main__":
         #              multi_objective_selection=
         now = datetime.now()
         timenow = now.strftime("%Y%m%d-%H.%M")
-        for random_seed in [330]:
+        for random_seed in [100]:
         # for random_seed in [100, 330, 42]:
-            for generations in [500]:
+            for generations in [ 1000]:
             # for generations in [1000,2000]:
-                for evaluation_method in [2]:
-                    for repertoireIndex in [0,1,2,3,4,5]:
+                for evaluation_method in [1]:
+                    for repertoireIndex in [3]:
                     # for repertoireIndex in [5]:
                         init(number_of_generations=generations,  # generations,
                              repertoireIndex=repertoireIndex,  # repertoire_index,
@@ -29,8 +28,15 @@ if __name__ == "__main__":
                              random_seed=random_seed,
                              multi_objective_selection="spea2",
                              dissim_threshold=0.55,
-                             fitness_threshold=calculate_fitness_threshold(Constants.repertoire_paths[repertoireIndex]),
+                             fitness_threshold=0.6,
+                             timenow=timenow)
+                        init(number_of_generations=generations,  # generations,
+                             repertoireIndex=repertoireIndex,  # repertoire_index,
+                             evaluation_method_index=evaluation_method,
+                             random_seed=random_seed,
+                             multi_objective_selection="spea2",
+                             dissim_threshold=0.62,
+                             fitness_threshold=0.5,
                              timenow=timenow)
                         # winsound.Beep(500, 1000)
 
-        winsound.Beep(1000, 4000)

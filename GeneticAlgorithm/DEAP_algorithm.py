@@ -7,7 +7,7 @@ from GeneticAlgorithm.Evaluation.Evaluation import compute_ncd
 from GeneticAlgorithm.Evaluation.RitchieParameters import compute_criterion_1,compute_criterion_2
 from GeneticAlgorithm.FileManagement import FileManagement
 from JsonEditor import jsonEditor
-from Mathematical.plot2d import plot2d_fit_nov, plot2d, plot2d_2_series
+from Mathematical.plot2d import plot2d_fit_nov, plot2d, plot2d_2_series, plot2d_no_lim
 
 
 def calculate_fitnesses(ind, pop, toolbox, parameters):
@@ -37,6 +37,7 @@ def print_pop(pop):
 def create_choreography(parameters):
     random.seed(parameters.random_seed)
     FileManagement.clearArchive()
+    FileManagement.initres(parameters.full_name)
 
     # initialization
     fitness_function = calculate_fitnesses
@@ -68,6 +69,7 @@ def create_choreography(parameters):
     criterion_2 = {}
     fitnesses_avg = {}
     novelty_avg = {}
+    archive_size = {}
 
     # create the population
     pop = toolbox.population(n=Constants.population_size)
@@ -79,8 +81,8 @@ def create_choreography(parameters):
     # print(bcolors.BLUE + "initialization" + bcolors.ENDC)
     print "initialisation"
     generations = []
-    # for g in range(parameters.number_of_generations):
-    while g < parameters.number_of_generations or (fitness_function == calculate_fitnesses and not parameters.evaluation_method_index == 0):
+    for g in range(parameters.number_of_generations):
+    # while g < parameters.number_of_generations or (fitness_function == calculate_fitnesses and not parameters.evaluation_method_index == 0):
         # A new generation
         g = g + 1
         print "generation", g
@@ -107,6 +109,7 @@ def create_choreography(parameters):
             if ind.fitness.values[0] > parameters.fitness_threshold:
                 count_individuals = count_individuals + 1
         print count_individuals
+        archive_size[g] = len(FileManagement.getArchive()["archive"])
         # selection
         if parameters.evaluation_method_index == 2:
             if fitness_function == calculate_fitnesses:
@@ -209,6 +212,8 @@ def create_choreography(parameters):
         plot2d_2_series(data=fitnesses_avg,data2 = novelty_avg,  x_label="generation", y_label="fitness and novelty", path=parameters.full_name + "values")
     else:
         plot2d(data=fitnesses_avg, x_label="generation", y_label="fitness", path=parameters.full_name + "values")
+    archive_size[g] = len(FileManagement.getArchive()["archive"])
+    plot2d_no_lim(data=archive_size, x_label="generation", y_label="archive size", path=parameters.full_name + "archivesize")
 
     full_ncd_results[g] = compute_ncd(results_full, repertoire_string)
     criterion_1[g] = compute_criterion_1(list(map(toolbox.clone, final)), repertoire_string)
@@ -219,6 +224,8 @@ def create_choreography(parameters):
     jsonEditor.dumpDict(filename=parameters.full_name + "ncd_full", dict=full_ncd_results)
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_1", dict=criterion_1)
     jsonEditor.dumpDict(filename=parameters.full_name + "criterion_2", dict=criterion_2)
+    jsonEditor.dumpDict(filename=parameters.full_name + "criterion_2", dict=criterion_2)
+    jsonEditor.dumpDict(filename=parameters.full_name + "archivesize", dict=archive_size)
     jsonEditor.dumpDict(filename=parameters.full_name + "values", dict={"fitness": fitnesses_avg, "novelty": novelty_avg})
     # plot2d_fit_nov(pop,final, parameters.full_name)
     return final, generations

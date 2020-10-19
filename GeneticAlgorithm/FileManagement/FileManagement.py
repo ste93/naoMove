@@ -26,11 +26,11 @@ def saveres(res, path):
     jsonEditor.dumpDict(path, res)
 
 
-def addres(choreography, path):
+def addres(x, path, index):
     # print "adding to archive"
     res = getres(path)
-    res.append(choreography)
-    saveres(choreography, path)
+    res[index] = x
+    saveres(res, path)
 
 
 def addToArchive(choreography):
@@ -38,6 +38,11 @@ def addToArchive(choreography):
     archive = getArchive()
     archive["archive"].append(choreography)
     saveArchive(archive)
+
+
+def initres(path):
+    saveres({} ,path + "res_arch")
+
 
 
 def clearArchive():

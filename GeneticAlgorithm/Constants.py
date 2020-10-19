@@ -21,10 +21,12 @@ repertoire_paths = [
 
     "json/archive/repertoire1",
     "json/archive/repertoire2",
-    "json/archive/repertoire3",
+    "json/archive/repertoire3_priest",
+    "json/archive/repertoire3_warrior",
     "json/archive/repertoire4",
+    "json/archive/repertoire6",
     "json/archive/repertoire5",
-    "json/archive/repertoire6"
+    "json/archive/repertoire10"
 ]
 
 # results_path = "json/archive/results"
